@@ -3,7 +3,7 @@ const siteMetadata = {
   title: 'Blogs | Yashraj Singh',
   author: 'Yashraj Singh',
   headerTitle: 'Blogs',
-  description: 'Blogs by Yashraj from yashrajs.com',
+  description: 'Blogs by Yashraj',
   language: 'en-us',
   theme: 'light', // system, dark or light
   siteUrl: 'https://blogs.yashrajs.com/',
