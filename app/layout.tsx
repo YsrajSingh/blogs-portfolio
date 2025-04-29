@@ -114,9 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
             <Header />
             <div className="flex min-h-screen flex-col">
-              <main className="mt-32 mb-32 flex flex-1 flex-col items-center justify-center">
-                {children}
-              </main>
+              <main className="flex flex-1 flex-col items-center justify-center">{children}</main>
             </div>
           </SearchProvider>
         </SectionContainer>
