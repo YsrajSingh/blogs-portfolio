@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
+import SearchButton from './SearchButton'
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -90,6 +91,7 @@ const Header = () => {
 
         {/* Desktop: External Links */}
         <div className="hidden items-center space-x-6 md:flex">
+          <SearchButton />
           {rightNavItems.map((item) =>
             item.isButton ? (
               <Link

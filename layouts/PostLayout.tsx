@@ -81,7 +81,10 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                               href={author.linkedin}
                               className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                             >
-                              {author.linkedin}
+                              {author.linkedin
+                                .replace('https://www.linkedin.com/in/', '')
+                                .replace('http://linkedin.com/in/', '')
+                                .replace(/\/$/, '')}
                             </Link>
                           )}
                         </dd>

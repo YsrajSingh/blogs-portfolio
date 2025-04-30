@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 const MAX_DISPLAY = 5
@@ -23,10 +24,6 @@ export default function Home({ posts }) {
   }
 
   // Opens the blog post link (using the post's path) in a new tab.
-  const handleCardClick = (link) => {
-    window.open(link, '_blank')
-  }
-
   // This can redirect to a full blogs list or external source if you need to.
   const handleReadMoreClick = () => {
     window.open('https://yourblogpage.com', '_blank') // change URL as needed
@@ -59,17 +56,12 @@ export default function Home({ posts }) {
           : posts.slice(0, MAX_DISPLAY).map((post) => {
               const { slug, date, title, summary, tags, images, path } = post
               return (
-                <div
+                <Link
                   key={slug}
                   className="flex cursor-pointer flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl"
                   role="button"
                   tabIndex={0}
-                  onClick={() => handleCardClick(path)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      handleCardClick(path)
-                    }
-                  }}
+                  href={path}
                 >
                   {/* Image or Placeholder */}
                   {images && images.length > 0 ? (
@@ -119,7 +111,7 @@ export default function Home({ posts }) {
                       })}
                     </p>
                   </div>
-                </div>
+                </Link>
               )
             })}
       </div>
