@@ -81,7 +81,7 @@ export default function ListLayoutWithTags({
 
   return (
     <>
-      <div>
+      <div className="mx-auto mt-20 w-full max-w-6xl px-4 py-6 md:mt-28 md:px-6 md:py-10">
         <div className="pt-6 pb-6">
           <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:hidden sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
             {title}
