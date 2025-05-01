@@ -1,0 +1,122 @@
+---
+title: 'PhonePe Payment Gateway Integration Guide'
+date: '2025-01-13'
+tags: ['payment-gateway', 'phonepe', 'integration', 'backend', 'api']
+draft: false
+images: ['https://cdn-images-1.medium.com/max/800/1*ggr3VMZQZZSELF4TTAEJ9A.png']
+summary: Today, we are going to learn how to integrate the PhonePe Payment Gateway. This tutorial will guide you through the integration process and highlight common errors you may encounter.
+---
+
+# PhonePe Payment Gateway Integration Guide
+
+Today, we are going to learn how to integrate the PhonePe Payment Gateway. This tutorial will guide you through the integration process and highlight common errors you may encounter.
+
+![](https://cdn-images-1.medium.com/max/800/1*ggr3VMZQZZSELF4TTAEJ9A.png)
+_Image Source: [PhonePe Payment Gateway](https://www.apnnews.com/phonepe-payment-gateway-helps-small-and-medium-businesses-save-upto-inr-8-lakhs/)_
+
+At the start of this year, I learnt how to integrate the PhonePe payment gateway into a website. This guide not only shares that experience but also provides a roadmap for anyone looking to integrate PhonePe into their Android or iOS apps. The process and challenges are similar across all platforms. So, lets dive deep in how to integrate PhonePe Payment Gateway.
+
+## Why businesses choose PhonePe Payment Gateway?
+
+Before diving into the integration, let's address why businesses choose PhonePe over competitors like Stripe or Razorpay. While Stripe and Razorpay are popular, the question is: why PhonePe? The answer is simple — **lower service charges**. Currently, PhonePe does not charge its clients, making it an economical choice. However, this could change at any time in the future. I hope this answers your question.
+
+**Please refer to this article for Payment Gateway Charges. PhonePe is at last**
+
+[A Brief Explanation Of Payment Gateway Charges](https://medium.com/@subburs987/a-brief-explanation-of-payment-gateway-charges-de20f45056e6)
+
+![](https://cdn-images-1.medium.com/max/1200/1*MFp4JeVdv1tyZpFSctwMXA.png)
+_Reference from [Payment Gateway Charges](https://medium.com/@subburs987/a-brief-explanation-of-payment-gateway-charges-de20f45056e6)_
+
+## A little about PhonePe Admin Panel
+
+On the flip side, the PhonePe admin panel falls short compared to its competitors. You (as a developer) may got frustrated while integrating payment gateway. Because it lacks functionalities like creating test credentials or regenerate API keys directly. Frustration is common, especially during the testing phase and a little on Production.
+
+![](https://cdn-images-1.medium.com/max/1200/1*LqcZSS14M8h5-cGMru8fyw.png)
+_[PhonePe Business Dashboard](https://business.phonepe.com/dashboard)_
+
+## Setting Up Your PhonePe Account
+
+To begin, ensure you have an account on [PhonePe Business](https://business.phonepe.com/login) and some programming expertise. Now, let's tackle the first challenge — generating test credentials.
+
+### Test vs. Production Credentials
+
+PhonePe's Developer Settings inside Admin Panel only display production credentials. For test credentials or regenerate Production API keys, you must contact their customer support. Here's how:
+
+![](https://cdn-images-1.medium.com/max/1200/1*l0ZEDjF5kXFMNPTPAD9F5Q.png)
+_[PhonePe Developer Settings](https://business.phonepe.com/developer-settings/api-keys)_
+
+1. **Raise a Ticket:** Navigate to the "Help" section in the admin panel. Under the relevant error category, select **Contact Us** to raise a ticket and then describe your concern.
+2. **Call Support:** If the ticket system fails, call PhonePe's business support team for assistance.
+
+> **Pro Tip:** Avoid using Google's suggested email ("merchant-pgsupport@phonepe.com"). It's outdated and will redirect you to the ticketing process.
+
+![](https://cdn-images-1.medium.com/max/1200/1*juzv7g0UTmy0PTsI8fLg9w.png)
+_Email conversion with merchant-pgsupport@phonepe.com_
+
+You can't create new production API keys and can't regenerate current one by own from admin panel. For all, you just need to "Contact Support" team.
+
+### Test Credential Components
+
+After contacting support, you'll receive the following test credentials:
+
+- **Merchant ID:** Test IDs usually start with "test".
+- **Salt Index:** A unique random number (e.g., 1 for testing).
+- **Salt Key:** A key provided by PhonePe (e.g., "b80c575a-a6b6–4c42–8e6b-9b22d35d894c").
+- **Environment:** Use `Env.UAT` for testing and `Env.PROD` for production.
+
+![](https://cdn-images-1.medium.com/max/1200/1*O5fhi6yW6Ri_jFKytu1oug.png)
+_[PhonePe FAQ](https://business.phonepe.com/faq)_
+
+## Integration Process
+
+Now that you have the credentials, let's integrate PhonePe using **React** and **Django** as an example. We are not here for show integration at code level. But this can give you an idea, how you can integrate.
+
+[PhonePe Documentation for python integration](https://developer.phonepe.com/v1/reference/python-setup/)
+
+### Backend Integration
+
+1. **Initialize Payment:** Create a backend API to initialize payments. Pass parameters like `merchant_transaction_id`, `amount`, `merchant_user_id`, `callback_url`, and `redirect_url` to PhonePe's SDK.
+2. **Generate Payment URL:** Use the `pay_page_pay_request_builder` function to get a payment URL.
+3. **Redirect User:** Redirect users to the payment URL, letting PhonePe handle the payment process.
+
+### Verify Payment
+
+After payment:
+
+1. Use the `merchant_transaction_id` to verify the payment via PhonePe's `check_status` function.
+2. Handle statuses like `SUCCESS`, `PENDING`, or `FAILED`.
+
+> **Note:** Avoid using local storage or sessions to handle `merchant_transaction_id` for unauthenticated users.
+
+### Supported Payment Methods
+
+PhonePe supports specific methods during testing. Refer to their [UAT testing docs](https://developer.phonepe.com/v1/docs/uat-testing/) for details.
+
+## Common Pitfalls and Solutions
+
+![](https://cdn-images-1.medium.com/max/800/1*ueIyz0_ri0GaHBG_oPG21A.png)
+_Most common error on Production_
+
+**Domain Mismatch Errors:**
+
+- Ensure the domain used for payment requests matches the one whitelisted during account creation.
+- Verify that your callback and redirect URLs share the same domain.
+
+> Example: If PhonePe whitelisted `www.example.com`, ensure all URLs use [www.](http://www..)
+
+**Ticketing Issues:**
+
+- Follow up with customer support if tickets don't open correctly.
+
+![](https://cdn-images-1.medium.com/max/1200/1*oJg2gks7eor6F5CmEoBKVg.png)
+**_Domain Mismatch Errors on Production_**
+
+## Next Steps
+
+This guide focused on the integration process and common challenges. In future articles, I'll dive deeper into code-level implementations using React and Django.
+
+## Conclusion
+
+In the end, PhonePe payment gateway offers a **cost-effective solution for businesses**, especially those conscious of service charges. Despite its admin panel limitations the gateway's economic advantage and functionality make it a compelling choice. By following this guide, you can overcome common integration challenges and unlock seamless transactions for your platform. With proper domain configurations, API handling, and support follow-ups, integrating PhonePe can be a smooth and rewarding experience.
+
+As PhonePe evolves, its potential for businesses will likely grow. Stay updated with their [official documentation](https://developer.phonepe.com/) and make the most of this robust payment gateway.

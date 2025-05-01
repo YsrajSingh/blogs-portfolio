@@ -1,0 +1,144 @@
+---
+title: 'How to Upload Code to GitHub: A Step-by-Step Guide'
+date: '2023-09-02'
+tags: ['github', 'git', 'version-control', 'tutorial', 'beginner']
+draft: false
+images: ['https://cdn-images-1.medium.com/max/800/0*XOZsQDVf-tL05vc3']
+summary: 'A comprehensive guide for beginners on how to upload their code to GitHub, including account setup, Git installation, and step-by-step instructions for pushing code.'
+---
+
+## Table of Contents
+
+1. **Introduction to GitHub**
+2. **Setting Up Your GitHub Account**
+   - Create a GitHub Account
+   - Creating Your First Repository
+3. **Git: Local Setup**
+   - Installing Git
+   - Verifying Git Installation
+   - Configuring Git
+4. **Connecting and Uploading Your Code**
+   - Adding and Committing Your Code
+   - Linking the Local Repository to GitHub
+   - Pushing Code to GitHub
+5. **Verifying Your Code on GitHub**
+6. **Common Pitfalls and Troubleshooting**
+7. **Related Articles**
+8. **Conclusion**
+
+## Introduction
+
+In this tutorial, we'll guide you through the process of uploading your code to GitHub for the very first time. Whether you're a designer, developer, machine learning enthusiast, or blockchain developer, understanding GitHub is essential in today's world. We'll cover fundamental aspects such as what GitHub is, how to push code to GitHub, the essential commands used in GitHub, and an overview of how GitHub functions.
+
+You can find theoretical information on GitHub on various platforms, but today, we're focusing on practical knowledge to address your basic questions and help you successfully push your code to GitHub for the first time. So, without further ado, let's get started.
+
+## Setting Up Your GitHub Account
+
+Before diving into the coding part, let's first log in to your GitHub account (if you don't have one, create it now) [GitHub](https://github.com/login) and create a repository. Once logged in, click on the "New" button, which is highlighted in green. On the next page, provide a repository name and choose whether you want it to be public or private.
+
+![Create Repository](https://cdn-images-1.medium.com/max/800/1*JjGMdqlXkpfm90ZC3MqPug.png)
+
+Here's the difference between public and private repositories:
+
+- Public repositories are accessible to anyone, with or without a GitHub account, allowing users to view and download your code.
+- Private repositories are for your eyes only, ensuring that no one else can view or download your code, maintaining your privacy.
+
+![Repository Settings](https://cdn-images-1.medium.com/max/800/1*fXo9Qe5OnehU18XX8lnq1w.png)
+
+On the next page, you'll see three different options:
+
+1. Create a new repository on the command line.
+2. Push an existing repository from the command line.
+3. Import code from another repository.
+
+![Repository Options](https://cdn-images-1.medium.com/max/800/1*VCBawLlpL3MvA1qb5WsxDg.png)
+
+Since we're new to GitHub, let's choose the first option for now. However, let's temporarily set this aside and focus on some local setup work before linking our code to this GitHub repository and pushing it online.
+
+## Git: Local Setup
+
+Next, let's return to your local setup. You need to download and install Git Bash on your local system. Here are the download links for Git Bash on different platforms:
+
+![Git Download](https://cdn-images-1.medium.com/max/800/1*YgV8TDw2ksKmKG4FWH0n0w.png)
+
+- Windows: [Download Git Bash for Windows](https://git-scm.com/download/win)
+- Mac OS: [Download Git Bash for Mac OS](https://git-scm.com/download/mac)
+- Linux and Unix: [Download Git Bash for Linux and Unix](https://git-scm.com/download/linux)
+
+After downloading and installing Git Bash, verify whether Git is installed by opening your terminal and typing _"git"_ followed by pressing Enter. If it displays documentation instead of an error message like _"git is not recognized as an internal or external command,"_ Git has been successfully installed. You can check the Git version using the command:
+
+```bash
+git --version
+```
+
+![Git Version Check](https://cdn-images-1.medium.com/max/800/1*b-ASkOFoFHuUiiwr9WFXMg.png)
+
+Now, let's configure GitHub by setting up two essential pieces of information: your Git username and Git email address. These are crucial when you push your code to GitHub to track who pushed the code and which files were updated. To configure them, use the following commands:
+
+- `git config --global user.name "your_first_name your_last_name"`
+- `git config --global user.email "your_email_address"`
+
+You can verify your username and email address using the following commands:
+
+- `git config user.name`
+- `git config user.email`
+
+![Git Config](https://cdn-images-1.medium.com/max/800/1*u7le-oay0tKsGk26bVS3Ew.png)
+
+Run these commands one by one, and they will display your name and email address, respectively.
+
+Lastly, we'll generate SSH keys and save them in GitHub. Open Git Bash or your terminal and type:
+
+- `ssh-keygen`
+
+![SSH Keygen](https://cdn-images-1.medium.com/max/800/1*y0vgDnEsqsVnfaIa5y_UIQ.png)
+
+This process is the same for Windows, macOS, and Linux. Afterward, press Enter until it's complete, then use the command "cat ~/.ssh/id_rsa.pub" to copy the text in the response. In your GitHub account, go to "Settings" and then "SSH and GPG Keys." Click on "New SSH Key," enter a title for reference, paste the key in the "Key" section, and click "Add SSH Key."
+
+![SSH Key in GitHub](https://cdn-images-1.medium.com/max/800/1*itxV1ynXesxz6Jp_Vskbcw.png)
+
+Now that we've completed the setup let's move on to connecting your code directory or folder to the GitHub repository and pushing your code online.
+
+## Connecting and Uploading Your Code
+
+To connect and upload your code, open your folder in the terminal and enter the following commands one by one:
+
+```bash
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin ssh_github_url
+git push -u origin main
+```
+
+> **Note**: Replace `ssh_github_url` with the SSH URL of your GitHub repository. You can find this in the GitHub repository settings.
+
+> **Attention**: Please note that we won't cover the .gitignore file in this article, as we assume you're pushing your code to GitHub for the first time. For best practices, you can explore .gitignore at a later stage.
+
+![GitHub Repository URL](https://cdn-images-1.medium.com/max/800/1*L2x5x-fM44gs8_JC_IE4wA.png)
+
+## Verifying Your Code on GitHub
+
+Once you see no errors, and if you've followed these steps correctly, there should be no issues. Let's verify whether your code has been successfully pushed to GitHub. Go back to the **"Setting up your GitHub account"** step, which means returning to your browser window where you created your new repository, and refresh the page. You should now see all your files online within this repository. **_Congratulations, you've successfully deployed your code to GitHub for the first time!_**
+
+## Common Pitfalls and Troubleshooting
+
+If, by chance or mistake, you encounter an error while pushing your code online, the main issue often involves the message:
+
+_"Please make sure you have the correct access rights and the repository exists."_
+
+You can find a solution to this issue in the linked article.
+
+If you encounter any other issues that you can't resolve through online searches, feel free to contact me via email or messages using this platform. I'm here to help, as I'm part of the same community.
+
+## Related Articles
+
+Below, you'll find some related articles I've written on GitHub. You can explore them if they are relevant to your needs.
+
+- [Difference between SSH and HTTPS in GitHub](https://ysrazsingh.medium.com/difference-between-ssh-and-https-in-github-95ea7cf38f4c)
+- [Generate and Add SSH Key in GitHub](https://ysrazsingh.medium.com/generate-and-add-ssh-key-in-github-ec3fd4256dba)
+
+## Conclusion
+
+In this article, we've covered creating repositories, setting up your GitHub account, configuring your local environment, generating and deploying SSH keys, and pushing your code to GitHub, a powerful version control system. We hope this guide helps you in your journey with GitHub. Thank you, and congratulations on your first successful push to Git!

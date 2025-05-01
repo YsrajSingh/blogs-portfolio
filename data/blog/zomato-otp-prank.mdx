@@ -1,0 +1,138 @@
+---
+title: 'Zomato OTP Prank'
+date: '2023-09-17'
+tags: ['python', 'scripting', 'prank', 'zomato', 'otp', 'tutorial']
+draft: false
+images: ['https://cdn-images-1.medium.com/max/800/0*Jk1VyNjKle81v9Rl']
+summary: 'A Python script tutorial for sending Zomato OTPs to phone numbers, intended for educational purposes and responsible pranking.'
+---
+
+## Table of Contents
+
+1. **Introduction**
+2. **Prerequisite**
+3. **Getting Started**
+4. **Running the Script**
+5. **Important Note**
+6. **Conclusion**
+
+## Introduction
+
+In this article, we'll explore a Python script that allows you to prank your friends by sending OTPs from Zomato to their mobile numbers. However, it's essential to emphasize that the primary intent of this script is educational, and any misuse or harm is strongly discouraged.
+
+## Prerequisite
+
+Before we dive into the script, make sure you have Python and pip installed on your system, along with a basic understanding of Python programming.
+
+You won't need any third-party dependencies for this project. All you need is your setup and the provided script.
+
+## Getting Started
+
+1. Create a folder named "Script" in your preferred location.
+2. Inside the "Script" folder, create three files:
+
+   - main.py
+   - data.json
+   - requirements.txt
+
+3. In the "requirements.txt" file, add the following line:
+
+```typescript
+requests
+```
+
+4. In the "data.json" file, paste the following code:
+
+```json
+[
+  {
+    "name": "ZOMATO",
+    "url": "https://accounts.zomato.com/login/phone",
+    "headers": {},
+    "body": {
+      "country_id": 1,
+      "type": "initiate",
+      "csrf_token": "aaaaaaaaaaaaaaaaaaa",
+      "lc": "bbbbbbbbbbbbbbbbbbbb",
+      "verification_type": "sms",
+      "number": ""
+    }
+  }
+]
+```
+
+**Note**: You can update the "country_id" to match your country's ID.
+
+5. In the "main.py" file, paste the Python script provided:
+
+```python
+import requests
+import json
+
+
+def send_requests(data, mobile_number):
+    for obj in data:
+        name = obj["name"]
+        url = obj["url"]
+        headers = obj["headers"]
+        payload = obj["body"]
+
+        # Update payload with the mobile number
+        for key in payload.keys():
+            if key in keys_to_update:
+                payload[key] = mobile_number
+
+        response = requests.post(url, headers=headers, data=payload)
+
+        # Check the response status code
+        if response.status_code == 200:
+            print(f"{name}: OTP sent successfully")
+        else:
+            print(f"{name}: Request failed with status code {response.status_code}")
+
+
+if __name__ == "__main__":
+    # Fetch mobile number from the user
+    mobile_number = input("Please Enter Phone Number: ")
+
+    # Opening JSON file
+    with open("data.json") as f:
+        data = json.load(f)
+
+    # Keys to update in Payload
+    keys_to_update = ["number"]
+
+    # Send requests
+    send_requests(data, mobile_number)
+```
+
+## Running the Script
+
+Now, follow these commands to execute the script:
+
+```python
+# Create a virtual environment
+python3 -m venv .venv
+
+# Activate the virtual environment (Linux/Mac)
+source .venv/bin/activate
+
+# Activate the virtual environment (Windows)
+.venv\Scripts\activate
+
+# Install dependencies
+pip3 install -r requirements.txt
+
+# Run the Python script
+python3 main.py
+```
+
+After executing the script, you will be prompted to enter the target phone number. Press enter, and within 5 seconds, you will receive a Zomato OTP.
+
+## Important Note
+
+Please be aware that you can only use this script five times a day. After reaching the limit, you'll need to wait 24 hours before running it again. Also, ensure that you only use this script on phone numbers with the owner's consent.
+
+## Conclusion
+
+This Python script is intended for educational purposes and serves as a fun way to learn about programming. Always use your coding skills responsibly and ethically. Enjoy your Zomato OTP prank responsibly and consider the privacy and consent of others.

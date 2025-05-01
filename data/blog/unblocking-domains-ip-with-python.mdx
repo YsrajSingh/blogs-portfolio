@@ -1,0 +1,65 @@
+---
+title: 'Unblocking Domains or IP with Python Script'
+date: '2023-08-29'
+tags: ['python', 'networking', 'security', 'automation', 'tutorial']
+draft: false
+summary: 'A step-by-step guide on using Python to unblock previously blocked domains or IP addresses by modifying the hosts file, including verification methods and customization options.'
+images: ['https://cdn-images-1.medium.com/max/800/1*VnqLB-BRcyPhbv9tojpz9Q.jpeg']
+authors: ['default']
+---
+
+Welcome to our step-by-step guide on domain unblocking using a Python script. In this article, we'll explore the process of unblocking domains that were previously blocked, all without the need for third-party libraries. All you need is a basic understanding of Python and the root permissions for your system. Root permissions are essential for this process, and on Linux and macOS, you can use 'sudo,' while on Windows, administrative access to the terminal is required.
+
+## The Python Script
+
+In the following sections, we'll dive into the Python script responsible for unblocking domains. This script is as straightforward and efficient as its blocking counterpart and requires no external libraries. It empowers you to regain access to previously blocked domains.
+
+```python
+import platform
+
+# Define the domain or IP address you want to unblock
+target = "www.google.com"  # Customize this to your desired domain or IP
+
+# Determine the path to the host file based on the operating system
+system = platform.system()
+if system == "Windows":
+    hosts_path = r"C:\Windows\System32\drivers\etc\hosts"
+else:
+    hosts_path = "/etc/hosts"
+
+# Read the content of the host file
+with open(hosts_path, "r") as hosts_file:
+    lines = hosts_file.readlines()
+
+# Create a new host file content without the blocking entry
+new_lines = [line for line in lines if not line.strip().endswith(target)]
+
+# Write the new content back to the host file
+with open(hosts_path, "w") as hosts_file:
+    hosts_file.writelines(new_lines)
+
+print(f"Unblocked {target} in the host file.")
+```
+
+As demonstrated in the code above, you can specify the domain you want to unblock by customizing the 'target' variable. The script efficiently removes the block entry, allowing access to your desired domain once again.
+
+## Customization
+
+Customization is at your fingertips. If you wish to unblock a different IP or domain, simply modify the 'target' variable. This flexibility empowers you to tailor the script according to your specific needs.
+
+## Verification
+
+To verify whether the domain is successfully unblocked, you can use two verification methods outlined in the previous sections.
+
+1. **Browser Verification:** Enter the domain in your browser's search bar and hit Enter. If the loads, your domain unblock is working successfully.
+2. **Terminal Ping Test:** Open your terminal and enter `ping www.google.com` (replace with your domain). If it shows the IP address this indicates that our domain is unblocked.
+
+## Related Articles
+
+- [How to block a domain using Python Script](https://medium.com/@ysrazsingh/how-to-block-a-domain-using-python-script-c623820c19c0)
+
+## Conclusion
+
+In this article, we've empowered you to regain access to your desired domains by unblocking them using a Python script. We've covered the script's inner workings, discussed customization options, and provided verification methods to ensure your unblock is effective.
+
+_Remember, with great power comes great responsibility. Use domain unblocking responsibly and exclusively for legitimate purposes, as it can impact both security and functionality. Whether you need to access previously blocked content or make adjustments to your domain blocking settings, this Python script offers a practical solution to achieve your goals._ **Happy domain unblocking!**

@@ -57,7 +57,7 @@ export default function Home({ posts }: { posts: Post[] }) {
   }
 
   return (
-    <div className="mx-auto mt-12 w-full max-w-6xl px-4 py-6 md:mt-8 md:px-6 md:py-10">
+    <div className="mx-auto mt-32 w-full max-w-6xl px-4 py-6 md:mt-24 md:px-6 md:py-10">
       <h1 className="mb-6 text-4xl font-bold text-gray-800 md:mb-10 md:text-6xl">Blogs</h1>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-3">

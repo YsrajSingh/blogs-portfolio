@@ -1,0 +1,60 @@
+---
+title: 'How to block a domain or IP using Python Script'
+date: '2023-08-29'
+tags: ['python', 'networking', 'security', 'automation', 'tutorial']
+draft: false
+summary: 'A step-by-step guide on using Python to block domains or IP addresses by modifying the hosts file, including verification methods and customization options.'
+images: ['https://cdn-images-1.medium.com/max/800/1*tA0Zw9LkdoecKdA-wyXIjg.jpeg']
+authors: ['default']
+---
+
+Welcome to our step-by-step guide on domain blocking using a Python script. In this article, we'll explore the world of domain control without the need for third-party libraries. All you need is a basic understanding of Python and the root permissions for your system. Root permissions are essential for this process, and on Linux and macOS, you can use 'sudo,' while on Windows, administrative access to the terminal is required.
+
+## The Python Script
+
+In the following sections, we'll delve into the Python script responsible for blocking domains. This script is straightforward, efficient, and requires no external libraries. It enables you to control your internet experience by blocking specific domains or IP addresses.
+
+```python
+import platform
+
+# Define the domain or IP address you want to block
+target = "www.google.com"  # Change this to the domain or IP you want to block
+
+# Determine the path to the host file based on the operating system
+system = platform.system()
+if system == "Windows":
+    hosts_path = r"C:\Windows\System32\drivers\etc\hosts"
+else:
+    hosts_path = "/etc/hosts"
+
+# Open the host file in append mode and add an entry to block the target
+with open(hosts_path, "a") as hosts_file:
+    hosts_file.write(f"\n127.0.0.1    {target}\n")
+
+print(f"Blocked {target} in the host file.")
+
+# Note: On Linux and macOS, you may need to run this script with sudo for write access to /etc/hosts.
+```
+
+As seen in the code, we've humorously chosen [www.google.com](http://www.google.com/) as our target domain. We then access the hosts file and register this domain, effectively blocking it on our system.
+
+## Customization
+
+Customization is at your fingertips. If you wish to block a different IP or domain, simply modify the 'target' variable. This flexibility empowers you to tailor the script according to your specific needs.
+
+## Verification
+
+To verify whether the domain is successfully blocked, you have two options:
+
+1. **Browser Verification:** Enter the domain in your browser's search bar and hit Enter. If the page doesn't load, your domain block is working.
+2. **Terminal Ping Test:** Open your terminal and enter `ping www.google.com` (replace with your domain). If it shows the local IP address (127.0.0.1), your domain is effectively blocked. Any other IP address indicates that the block is not working.
+
+## Related Articles
+
+- [Unblocking Domains or IP with Python Script](https://ysrazsingh.medium.com/unblocking-domains-or-ip-with-python-script-99afc6dbc635)
+
+## Conclusion
+
+In this article, we've empowered you to take control of your internet experience by blocking domains using a Python script. We've covered the script's inner workings, discussed customization options, and provided verification methods to ensure your block is effective.
+
+_Remember, with great power comes great responsibility. Use domain blocking responsibly and exclusively for legitimate purposes, as it can impact both security and functionality. Whether you're looking to enhance online safety or minimize distractions, this Python script offers a practical solution to achieve your goals._ **Happy domain blocking!**

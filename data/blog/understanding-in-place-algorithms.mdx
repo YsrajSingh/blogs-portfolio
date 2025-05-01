@@ -1,0 +1,75 @@
+---
+title: 'Understanding In-Place Algorithms'
+date: '2025-02-17'
+tags: ['algorithms', 'data-structures', 'programming', 'leetcode']
+draft: false
+images: ['https://cdn-images-1.medium.com/max/800/1*u7iVdfiBdYmyMKA-xRFh8Q.png']
+summary: Today, while solving problems on LeetCode, I came across in-place algorithms. Let me share what I've learned about them, including their use cases, advantages, disadvantages, and working principles.
+---
+
+# Understanding In-Place Algorithms
+
+Today, while solving problems on LeetCode, I came across in-place algorithms. Below, you can see "in-place" highlighted in blue. LeetCode also provides a link to Wikipedia for further reading on the topic.
+
+![](https://cdn-images-1.medium.com/max/800/0*RhgUXhOXuqJwSEY_)
+
+However, I want to share what I've learned about in-place algorithms, including their use cases, advantages, disadvantages, and working principles.
+
+## Introduction
+
+In-place algorithms operate directly on the input data structure without requiring extra space proportional to the input size. They optimize memory usage by modifying elements within the same array or data structure instead of creating a new one.
+
+If this definition isn't clear yet, let's look at an example before re-reading it.
+
+## Example: In-Place Merging of Two Arrays
+
+```python
+class Solution(object):
+    def merge(self, nums1, m, nums2, n):
+        nums1[m:] = nums2  # Copy elements of nums2 into nums1
+        nums1.sort()  # Sort in-place
+```
+
+Here, instead of creating a new array, `nums1` is modified directly, making this an in-place approach.
+
+## Advantages & Disadvantages
+
+### Advantages
+
+1. Save memory and space
+2. Faster due to fewer memory allocations
+3. Ideal for resource-constrained environments
+
+### Disadvantages
+
+1. Can be harder to understand & debug
+2. May modify input data, which isn't always desirable
+3. Some algorithms, like Merge Sort, require extra space to be efficient
+
+## Where Are In-Place Algorithms Used?
+
+- **Sorting**: QuickSort (partition step), Bubble Sort, Selection Sort.
+- **Searching**: Binary Search, Linear Search.
+- **Arrays & Strings**: Reversing, rotating, removing duplicates.
+- **Linked Lists**: Reversing, cycle detection (Floyd's Tortoise & Hare).
+- **Heap Algorithms**: Heap Sort.
+
+## How Do In-Place Algorithms Work?
+
+They modify the input data directly using:
+
+- Swaps (e.g., QuickSort partitioning).
+- Pointer manipulation (e.g., linked list reversal).
+- Iterative updates (e.g., array rotation).
+
+This optimizes space complexity, often reducing it to O(1) or O(log n).
+
+## When to Use & When to Avoid?
+
+- Use when memory optimization is crucial and modifying the original data is acceptable.
+- Avoid when the original data must be preserved or a more readable approach is preferred.
+- Tip: Keep your code simple. If you find an in-place approach too complex to understand, consider an alternative.
+
+## Conclusion
+
+In-place algorithms balance efficiency and performance, making them essential for competitive programming and real-world applications. However, they come with trade-offs, so choosing the right approach depends on the problem requirements.

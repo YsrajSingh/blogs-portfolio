@@ -1,0 +1,105 @@
+---
+title: 'Difference between SSH and HTTPS in GitHub'
+date: '2023-09-02'
+tags: ['github', 'ssh', 'https', 'security', 'authentication', 'git']
+draft: false
+summary: 'A comprehensive comparison between SSH and HTTPS authentication methods in GitHub, covering security, ease of use, access control, and architectural differences to help you choose the right method for your workflow.'
+images: ['https://cdn-images-1.medium.com/max/800/1*CiHB35TBwdhRs6cRnxNhig.jpeg']
+authors: ['default']
+---
+
+## Introduction
+
+In this article, we'll explore the differences between SSH (Secure Shell) and HTTPS (Hypertext Transfer Protocol Secure) as methods for interacting with GitHub repositories. GitHub offers both SSH and HTTPS as authentication and communication protocols, each with its advantages and use cases. By the end of this comparison, you'll have a clear understanding of when to choose SSH or HTTPS for your GitHub workflow.
+
+## What Is SSH?
+
+SSH is a cryptographic network protocol that provides a secure way to access and manage remote systems. In the context of GitHub, SSH allows users to securely authenticate and communicate with GitHub servers. SSH uses public and private key pairs for authentication, providing a high level of security.
+
+## What Is HTTPS?
+
+HTTPS is a widely used protocol for secure communication over the internet. In the context of GitHub, HTTPS enables users to access and interact with GitHub repositories using encrypted connections. HTTPS relies on usernames and passwords or personal access tokens for authentication.
+
+## Key Differences between SSH and HTTPS
+
+### 4.1. Authentication Method
+
+- **SSH**: Uses SSH keys for authentication. Users generate a key pair (public and private keys), with the public key stored on GitHub, and the private key kept on their local machine.
+- **HTTPS**: Requires either a username and password or a personal access token (PAT) for authentication. PATs are tokens generated from your GitHub account.
+
+### 4.2. Security
+
+- **SSH**: Offers a high level of security due to the use of cryptographic key pairs. Private keys are never transmitted over the network, making it difficult for unauthorized users to gain access.
+- **HTTPS**: Relies on passwords or tokens, which can be vulnerable to brute force attacks or credential leaks if not properly secured.
+
+### 4.3. Ease of Use
+
+- **SSH**: Requires the initial setup of SSH keys, which can be slightly more involved. However, once set up, SSH provides a convenient and secure way to access GitHub repositories.
+- **HTTPS**: Simple to use, especially for users who prefer not to deal with SSH key management. It may be the preferred choice for beginners.
+
+### 4.4. Access Control
+
+- **SSH**: Offers fine-grained access control through the use of SSH keys. You can grant access to specific users by adding their public keys to your repository.
+- **HTTPS**: Access control is managed through GitHub permissions, which can be coarser-grained. Users are given access to entire repositories rather than specific keys.
+
+### 4.5. Cloning and Authentication
+
+- **SSH**: When cloning a repository using SSH, you don't need to enter your credentials each time. Authentication is handled automatically using your SSH key.
+- **HTTPS**: Requires you to enter your GitHub credentials (username and password or PAT) each time you interact with a repository.
+
+## When to Use SSH or HTTPS
+
+- **Use SSH**: If security and convenience are top priorities, especially for frequent interactions with GitHub repositories. SSH is a great choice for developers and teams who want strong access control and a streamlined workflow.
+- **Use HTTPS**: If simplicity is key or if you're just getting started with GitHub. HTTPS is easier to set up for beginners and may be preferred for casual use.
+
+## Understanding Architecture
+
+### SSH Architecture
+
+SSH is a network protocol that facilitates secure communication between two computers, typically a client and a server. In the context of GitHub, the architecture of SSH authentication involves the following components:
+
+1. **Client**: The client is the user's local machine, where SSH keys are generated and stored. It's from this client that users initiate interactions with the GitHub server.
+2. **SSH Key Pair**: The core of SSH authentication is the key pair. This consists of a private key and a public key. The private key remains on the client and is kept secure, while the public key is shared with the GitHub server.
+3. **GitHub Server**: GitHub maintains a server that listens for incoming SSH connections. When a user authenticates with their private key, the server checks the public key associated with the user's GitHub account to confirm their identity.
+4. **Authentication Process**:
+   - The user generates an SSH key pair on their client machine.
+   - The user associates their public SSH key with their GitHub account by adding it to their account settings.
+   - When the user interacts with GitHub, the client initiates a secure SSH connection to the GitHub server.
+   - The server requests the user's public key and verifies it against the stored public key associated with the GitHub account.
+   - If the keys match, the server grants access to the user's GitHub resources.
+
+### HTTPS Architecture
+
+HTTPS, on the other hand, is a protocol used for secure communication over the internet. When interacting with GitHub via HTTPS, the architecture involves:
+
+1. **Client**: Similar to SSH, the client represents the user's local machine, where they perform Git operations and interact with GitHub repositories.
+2. **GitHub Server**: GitHub maintains a server that hosts its repositories and services. When users make HTTPS requests, these are directed to the GitHub server.
+3. **Authentication Methods**:
+   - **Username and Password**: Traditionally, users authenticate using their GitHub username and password. However, this method is becoming less common due to security concerns.
+   - **Personal Access Token (PAT)**: To enhance security, GitHub encourages the use of PATs, which are generated from a user's GitHub account and used as a token-based authentication method.
+4. **Authentication Process**:
+   - The user initiates an HTTPS request to GitHub, typically by using Git commands or interacting with GitHub via a web browser.
+   - If using a username and password, the user provides their GitHub credentials.
+   - If using a PAT, the user provides their token.
+   - GitHub's server checks the provided credentials or token against the user's account.
+   - If the credentials or token are valid, GitHub grants access to the requested resources.
+
+### Key Differences in Architecture
+
+1. **Authentication Method**: SSH relies on cryptographic key pairs for authentication, while HTTPS uses usernames and passwords or personal access tokens.
+2. **Security**: SSH is considered highly secure because it involves private and public keys, making it challenging for unauthorized users to gain access. HTTPS is secure but relies on traditional username-password or token-based authentication.
+3. **Ease of Use**: HTTPS is generally easier to set up for beginners because it doesn't require generating and managing key pairs. SSH may have a steeper learning curve initially due to key management.
+4. **Access Control**: SSH provides fine-grained access control through the use of public keys, allowing specific users access to specific repositories. HTTPS relies on GitHub permissions, which are coarser-grained.
+
+In summary, SSH and HTTPS differ in their architectural approaches to authentication and security. SSH relies on key pairs for robust security, while HTTPS offers simplicity and a variety of authentication methods. The choice between them depends on your specific security requirements and workflow preferences.
+
+## Related Articles
+
+Below, you'll find some related articles I've written on GitHub. You can explore them if they are relevant to your needs.
+
+- [How to Upload Code to GitHub: A Step-by-Step Guide](https://ysrazsingh.medium.com/how-to-upload-code-to-github-a-step-by-step-guide-5e3e55f23172)
+- [Generate and Add SSH Key in GitHub](https://ysrazsingh.medium.com/generate-and-add-ssh-key-in-github-ec3fd4256dba)
+
+## Conclusion
+
+In this comparison, we've explored the differences between SSH and HTTPS when interacting with GitHub repositories. While both methods have their advantages and use cases, the choice between SSH and HTTPS depends on your specific needs and preferences. Whether you prioritize security, ease of use, or access control, GitHub provides both options to accommodate a variety of workflows. Make your choice based on what aligns best with your development practices and security requirements.

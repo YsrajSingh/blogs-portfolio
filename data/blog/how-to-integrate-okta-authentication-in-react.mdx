@@ -1,0 +1,198 @@
+---
+title: 'How to integrate Okta Authentication in React'
+date: '2023-08-25'
+tags: ['okta', 'react', 'authentication', 'security', 'javascript', 'typescript']
+draft: false
+summary: 'A step-by-step guide on implementing Okta Authentication in React applications, including route protection, configuration setup, and user authentication management.'
+images: ['https://cdn-images-1.medium.com/max/800/1*lRlqbbMuyHlaVz1uUWHEeg.jpeg']
+authors: ['default']
+---
+
+In this tutorial, we will explore how to integrate Okta Authentication into our React application. Our overarching goal is to implement Okta authentication in both our frontend (React) and backend (FastAPI). This tutorial will specifically focus on the React application.
+
+Before proceeding, it's important to note that we have a prior tutorial that explains how to generate an Okta domain and Client ID, which we will be using in our React application. To begin, please review this tutorial: [Okta Authentication](https://ysraz.medium.com/enabling-okta-authentication-in-react-and-fastapi-58f629d88f9d) (Okta Setup)
+
+## Installing Okta Dependencies
+
+In your React application, you need to install two Okta dependencies: `@okta/okta-auth-js` and `@okta/okta-react`. You can install these using npm or yarn.
+
+## Creating the Okta Configuration File
+
+Next, create a file named `config.js` in the root folder of your React application. This file will hold your Okta Domain and Client ID configuration. Here's an example of what the `config.js` file should look like:
+
+```typescript
+const OKTA_ISSUER = 'https://<YOUR_OKTA_DOMAIN>/oauth2/default'
+const OKTA_CLIENT_ID = '<YOUR_OKTA_CLIENT_ID>'
+const OKTA_SCOPES = 'openid profile email'
+
+const scopes = OKTA_SCOPES as string
+const scopesArray = scopes && scopes.split(/\s+/)
+
+export const oktaConfig = {
+  issuer: OKTA_ISSUER as string,
+  clientId: OKTA_CLIENT_ID as string,
+  redirectUri: `${window.location.origin}/login/callback`,
+  scopes: scopesArray || [],
+  pkce: true,
+  disableHttpsCheck: true,
+}
+```
+
+## Securing Your Routes
+
+Moving on to the next step, we will secure our routes. We will determine which routes require authentication and which ones are publicly accessible.
+
+To secure your routes, make sure your react-router-dom version is 5 or lower. In this tutorial, we're using version 5.3.0. Update your route files as shown in the code snippet.
+
+```typescript
+import React, { Component } from "react";
+import {
+    Route,
+    BrowserRouter,
+    useHistory,
+    Switch,
+    withRouter,
+} from "react-router-dom";
+import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
+import { Security, SecureRoute, LoginCallback } from "@okta/okta-react";
+import { oktaConfig } from "../config";
+import IndexPage from "../public/Index";
+import SecretPage1 from "../private/SecretPage1";
+import SecretPage2 from "../private/SecretPage2";
+
+// Other Import statements here...
+
+const oktaAuth = new OktaAuth(oktaConfig);
+
+const Routes: React.FC = () => {
+    const history = useHistory();
+
+    const restoreOriginalUri = (_oktaAuth: OktaAuth, originalUri?: string) => {
+        history.replace(
+            toRelativeUrl(originalUri || "/", window.location.origin)
+        );
+    };
+
+    return (
+        <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
+            <Switch>
+                {/* Public routes */}
+                <Route
+                    path="/login/callback"
+                    exact={true}
+                    component={LoginCallback}
+                />
+                <Route exact path="/" component={IndexPage} />
+                <SecureRoute exact path="/page1" component={SecretPage1} />
+                <SecureRoute
+                    exact
+                    path="/page2"
+                    component={SecretPage2}
+                />
+            </Switch>
+        </Security>
+    );
+};
+
+const AppWithRouterAccess = withRouter(Routes);
+
+class AppRoutes extends Component {
+    render() {
+        return (
+            <BrowserRouter>
+                <AppWithRouterAccess />
+            </BrowserRouter>
+        );
+    }
+}
+
+export default AppRoutes;
+```
+
+In the code above, you can see that the "index" and "login/callback" routes are public because we use the "Route" component from react-router-dom. Meanwhile, "SecretPage1" and "SecretPage2" are private routes as they use the "SecureRoute" component from "@okta/okta-react." Additionally, there is a wrapper for the "Security" component.
+
+## Examining the Root File
+
+Now, our main application file will resemble the following:
+
+```typescript
+import React from "react";
+import AppRoutes from "./routes";
+
+const App: React.FC = () => {
+    return (
+        <>
+            <React.StrictMode>
+                <AppRoutes />
+            </React.StrictMode>
+        </>
+    );
+};
+
+export default App;
+```
+
+## About Sign-In and Sign-Out
+
+Lastly, we need login and logout buttons to connect or redirect us to our landing or sign-in page. In my case, the header component will appear as follows:
+
+```typescript
+import { useOktaAuth } from "@okta/okta-react";
+
+function Header() {
+    const { oktaAuth, authState } = useOktaAuth();
+    const logout = () => void oktaAuth.signOut();
+    const login = () => void oktaAuth.signInWithRedirect({ originalUri: "/" });
+
+    return (
+        <>
+            {authState?.isAuthenticated ? (
+                <button
+                    onClick={() => void logout()}
+                    className="header-auth-btn logoutLogo"
+                >
+                    Log out
+                </button>
+            ) : (
+                <button
+                    onClick={() => void login()}
+                    className="header-auth-btn logoutLogo"
+                >
+                    Log-In
+                </button>
+            )}
+        </>
+    );
+}
+
+export default Header;
+```
+
+## Bonus Section
+
+As a bonus, to conditionally render components based on authentication, you can utilize the following code snippet:
+
+```typescript
+import { useOktaAuth } from '@okta/okta-react'
+import useAuthUser from '../../hooks/getUser'
+
+const { authState } = useOktaAuth()
+const userInfo = useAuthUser()
+```
+
+The "authState" variable provides information about authentication, access tokens, and refresh tokens, while "userInfo" helps retrieve user details such as first name, last name, and email provided to the Okta app.
+
+## Related Tutorials
+
+- [Enabling Okta Authentication (Okta Dashboard Setup)](https://ysraz.medium.com/enabling-okta-authentication-in-react-and-fastapi-58f629d88f9d)
+- [Configuring Okta Authentication in FastAPI](https://ysraz.medium.com/configuring-okta-authentication-in-fastapi-c9c8c5976061) (Backend)
+
+## Guidelines
+
+We need to establish a section emphasizing the importance of matching the Okta domain, Okta Client ID, and redirect URI in the configuration file with the corresponding values in the Okta developer dashboard. On the other hand, we should also highlight the necessity of modifying the `/login/callback` route in the routes configuration.
+
+## Conclusion
+
+In this tutorial, we've demonstrated how to integrate Okta Authentication into your React application using Vitejs. We covered the installation of Okta dependencies, the creation of the Okta configuration file, and securing your routes for authentication. You can also add login and logout buttons to enhance user interaction.
+
+Additionally, we provided a bonus section on rendering conditional components based on authentication status and retrieving user information. With this knowledge, you can implement robust authentication and authorization features in your React application.

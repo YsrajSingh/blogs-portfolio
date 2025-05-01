@@ -1,0 +1,108 @@
+---
+title: 'How to integrate Okta Authentication in FastAPI'
+date: '2023-08-25'
+tags: ['okta', 'fastapi', 'python', 'authentication', 'security', 'api']
+draft: false
+summary: 'A comprehensive guide on implementing Okta authentication in FastAPI applications, including middleware setup and JWT verification for secure API endpoints.'
+images: ['https://cdn-images-1.medium.com/max/800/1*XZI4xMgvXRdXVQrdEosZuw.jpeg']
+authors: ['default']
+---
+
+Here we are to continue our series of Okta authentication, in which we first learn about okta like how to use okta dashboard for authentication process then we use our okta domain and okta client id in react application to implement authentication on Frontend. Our can found previous articles below in Related articles section. Now, our Final Step is to configuring Okta authentication on our Backend. So, our Frontend and Backend all must be secured.
+
+## Prerequisites
+
+Here, we specify the prerequisites for this article. It's assumed that the reader has a good knowledge of Python and some familiarity with FastAPI, as these skills will be essential for implementing Okta authentication in our backend.
+
+## Overview
+
+In this section, we delve into the setup of middleware for our FastAPI application. We explain the purpose of creating a custom middleware to verify the authentication of every incoming request. We also detail the installation of the required dependency, "okta_jwt_verifier."
+
+## Middleware Setup
+
+To begin, we need to install the required dependencies for implementing Okta Authentication in FastAPI, specifically "okta_jwt_verifier." You can obtain it by executing the following command:
+
+```bash
+pip install okta_jwt_verifier==0.2.4
+```
+
+To create a custom middleware in your `main.py` file, we will use `add_middleware()`. Your code will resemble the following:
+
+```python
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from .okta_middleware import OktaJWTMiddleware
+
+# Create an instance of the FastAPI class
+app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="*",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Add Okta JWT Middleware
+app.add_middleware(OktaJWTMiddleware)
+
+
+# Testing URL
+@app.get("/")
+def index():
+    return {"message": "Congratulations, FastAPI this side."}
+
+# Define a route with a path parameter
+@app.get("/hello/{name}")
+async def read_item(name: str):
+    return {"message": f"Hello, {name}"}
+```
+
+## Custom Middleware
+
+Your custom middleware, located in the `OktaJWTMiddleware` file, will look like this:
+
+```python
+import os
+from fastapi import Request
+from fastapi.responses import JSONResponse
+from okta_jwt_verifier import JWTVerifier
+from starlette.middleware.base import BaseHTTPMiddleware
+
+
+class OktaJWTMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app):
+        super().__init__(app)
+
+    async def dispatch(self, request: Request, call_next):
+        OKTA_ISSUER = os.getenv("OKTA_ISSUER")
+        OKTA_CLIENT_ID = os.getenv("OKTA_CLIENT_ID")
+
+        accessToken = request.headers.get("authorization", None)
+
+        if accessToken is not None:
+            try:
+                accessToken = accessToken.split(" ")[1]
+                jwt_verifier = JWTVerifier(OKTA_ISSUER, OKTA_CLIENT_ID, "api://default")
+                await jwt_verifier.verify_access_token(accessToken)
+                return await call_next(request)
+            except Exception as e:
+                return JSONResponse({"error": f"Unauthorized token or {e}"}, status_code=401)
+        else:
+            return JSONResponse({"error": "Unauthorized Access"}, status_code=401)
+```
+
+With this middleware in place, every request to your backend will undergo authentication. If a request is not authenticated, it will return an "Unauthorized Access" response.
+
+## Related Tutorials
+
+And, here below are the links for Okta Authentication in React App and FastAPI respectively. Hope sounds you good.
+
+- [Enabling Okta Authentication (Okta Dashboard Setup)](https://ysraz.medium.com/enabling-okta-authentication-in-react-and-fastapi-58f629d88f9d)
+- [Configuring Okta Authentication in a React App (Vitejs)](https://ysraz.medium.com/configuring-okta-authentication-in-a-react-app-vitejs-b5982a4991ee)
+
+## Conclusion
+
+In conclusion, implementing Okta authentication in both the frontend and backend of our application is crucial for security. With the custom middleware in place, we can be confident that every incoming request is authenticated, ensuring the integrity of our application. This approach enhances the overall security of our system, making it a robust choice for protecting sensitive data and resources.

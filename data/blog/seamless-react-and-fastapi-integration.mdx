@@ -1,0 +1,157 @@
+---
+title: 'Seamless React and FastAPI Integration on a Single Domain: A Step-by-Step Guide'
+date: '2023-08-28'
+tags: ['react', 'fastapi', 'python', 'javascript', 'web-development', 'integration']
+draft: false
+summary: 'Learn how to integrate React with FastAPI on a single domain, enabling you to build powerful web applications with a modern frontend and a robust Python backend.'
+images: ['https://cdn-images-1.medium.com/max/800/1*7UGXW5PkwzBI7pDzZB-VOA.jpeg']
+authors: ['default']
+---
+
+In today's dynamic web development landscape, the integration of frontend and backend technologies has become crucial for building powerful, interactive web applications. In this guide, we will walk you through the process of seamlessly integrating React, a leading frontend JavaScript library, with FastAPI, a modern Python web framework, on the same domain. By the end of this tutorial, you will have a web application where React handles the user interface, and FastAPI manages the backend logic — all under a single domain.
+
+## Introduction
+
+In this comprehensive guide, we will walk you through the steps to achieve this integration. Our goal is to set up a website, let's call it www.example.com, where the default route serves a React application to users, but with a twist. When users navigate to www.example.com/docs, they will encounter FastAPI's interactive documentation, and when they visit www.example.com/admin, they will access an admin panel — all within the same web application. Let's start!
+
+## Setting Up a FastAPI Project
+
+Before we dive into the integration process, we need to set up a FastAPI project. Follow these steps:
+
+### Create a Virtual Environment
+
+Begin by creating a new virtual environment. On Linux and Mac, use the following command:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+On Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+Ensure you have Python and pip installed. You can verify their versions with:
+
+```bash
+python --version
+pip --version
+```
+
+### Manage Dependencies
+
+Create a `requirements.txt` file to manage dependencies. You can do this manually or use:
+
+```bash
+pip freeze > requirements.txt
+```
+
+Add the following lines to `requirements.txt`:
+
+```plaintext
+fastapi
+uvicorn[standard]
+```
+
+### Install Dependencies
+
+Install the dependencies using:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Create a FastAPI App
+
+Create a `main.py` file with the following code:
+
+```python
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+async def root():
+    return {"message": "Hello, world!"}
+```
+
+### Run the FastAPI App
+
+Start the FastAPI app with the command:
+
+```bash
+uvicorn main:app --reload
+```
+
+You can access your FastAPI app at http://127.0.0.1:8000.
+
+## Building a New React App
+
+Now, let's create a new React app and integrate it with FastAPI:
+
+### Create a React App
+
+Use the following command to create a new React app named "Frontend".
+
+```bash
+npx create-react-app Frontend
+```
+
+### Install Dependencies
+
+Navigate into the "Frontend" folder using `cd Frontend`, then run `yarn` or `npm install` to install the necessary dependencies.
+
+### Build the React App
+
+Build the React app with the command:
+
+```bash
+yarn build
+
+# or
+
+npm build
+```
+
+This will create a "build" or "dist" folder with the production-ready React app.
+
+### Update FastAPI Code
+
+Modify your `main.py` file to serve the React app build at the root path. Here's the updated code:
+
+```python
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import FileResponse
+from starlette.staticfiles import StaticFiles
+
+app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="*",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Frontend URL
+@app.get("/")
+def index():
+    return FileResponse("frontend/dist/index.html")
+
+@app.exception_handler(404)
+async def exception_404_handler(request, exc):
+    return FileResponse("frontend/dist/index.html")
+
+app.mount("/", StaticFiles(directory="frontend/dist/"), name="ui")
+```
+
+Make sure to adjust the file paths if your React build folder has a different name.
+
+## Conclusion
+
+In this tutorial, we've demonstrated how to seamlessly integrate React and FastAPI on the same domain. With React handling the frontend and FastAPI managing the backend, you now have the foundation to build dynamic and interactive web applications that cater to both user experience and functionality. Whether you're developing locally or for production, this integration offers a powerful solution for modern web development.

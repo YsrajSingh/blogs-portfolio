@@ -1,0 +1,126 @@
+---
+title: 'HTTP Status Codes Overview'
+date: '2025-03-11'
+tags: ['web-development', 'http', 'api', 'backend']
+draft: false
+images: ['https://cdn-images-1.medium.com/max/1200/0*nxjvrfqcQaEeXodu']
+summary: HTTP status codes are essential for web communication, helping clients and servers understand request outcomes. They are grouped into five categories, each starting with a digit from 1 to 5, indicating the type of response.
+---
+
+# HTTP Status Codes Overview
+
+HTTP status codes are essential for web communication, helping clients and servers understand request outcomes. They are grouped into five categories, each starting with a digit from 1 to 5, indicating the type of response. Below, I provide a brief overview of each category and highlight a few key codes, with more detailed articles available for all listed codes.
+
+## Informational (1xx)
+
+These codes indicate the server has received the request and is continuing to process it. For example, 100 Continue suggests the client should proceed with sending the request body, often used for large uploads.
+
+## Successful (2xx)
+
+These codes mean the request was successful. A common example is 200 OK, returned when a web page loads correctly, and 201 Created, used when a new resource is made, like creating a user account.
+
+## Redirection (3xx)
+
+These codes indicate the client needs to take additional action, usually following a new URL. For instance, 301 Moved Permanently shows a permanent URL change, like a website moving domains, while 302 Found is for temporary redirects.
+
+## Client Error (4xx)
+
+These codes suggest an error on the client's side. A well-known example is 404 Not Found, seen when a webpage doesn't exist, and 401 Unauthorized, requiring login for access. An unexpected detail is 418 I'm a Teapot, a humorous code for teapots refusing to brew coffee, occasionally used for fun in web apps.
+
+## Server Error (5xx)
+
+These codes indicate server-side issues. For example, 500 Internal Server Error occurs when the server encounters an unexpected problem, like a script error, and 503 Service Unavailable is used during maintenance or overload.
+
+## Introduction to HTTP Status Codes
+
+HTTP status codes are three-digit responses from servers to client requests, categorized into five groups based on the first digit: informational (1xx), successful (2xx), redirection (3xx), client error (4xx), and server error (5xx). These codes facilitate communication, helping diagnose issues and understand server responses. The user requested articles for all listed codes, and this analysis covers each with explanations, examples, and best practices, ensuring accessibility and depth.
+
+## Detailed Articles by Category
+
+### 1xx Informational
+
+- **100 Continue**: Indicates the server received headers and is ready for the body, useful for large uploads. Example: A client uploads a file, sends headers first, gets 100 Continue, then sends data. Best practice: Wait for 100 before sending large bodies to save bandwidth.
+- **101 Switching Protocols**: Shows the server is switching protocols, like to WebSockets. Example: Client upgrades to WebSocket, server responds 101, enabling real-time communication. Best practice: Ensure server supports the new protocol.
+- **102 Processing**: Indicates ongoing processing, used for long tasks. Example: Complex calculation starts, server sends 102, client waits for final response. Best practice: Use sparingly to avoid overhead.
+- **103 Early Hints**: Sends preliminary links for resources, improving load times. Example: Server hints at CSS files during page load, client fetches early. Best practice: Use for critical resources to speed up rendering.
+
+### 2xx Successful
+
+- **200 OK**: Standard success, returns requested data. Example: Browsing a site, getting 200 with the page. Best practice: Ensure response matches expected data.
+- **201 Created**: New resource created, like a new account. Example: POST creates user, returns 201 with location. Best practice: Include Location header for new resource.
+- **202 Accepted**: Request accepted but not completed, for async tasks. Example: Email sent, server queues, returns 202. Best practice: Provide status check mechanisms.
+- **203 Non-Authoritative Information**: Response from cache, not original. Example: Proxy serves cached page, returns 203. Best practice: Verify if freshness is critical.
+- **204 No Content**: Success, no body returned, like deletes. Example: DELETE resource, get 204. Best practice: Use for operations without data return.
+- **205 Reset Content**: Success, reset document view, like form clears. Example: Form submit, server returns 205, browser clears fields. Best practice: Use for UI resets post-action.
+- **206 Partial Content**: Partial resource sent, for range requests. Example: Resume download, get 206 for missing part. Best practice: Support for large files to save bandwidth.
+- **207 Multi-Status**: Multiple statuses for batch operations, WebDAV use. Example: PROPFIND on files, some found, some not, returns 207 with XML. Best practice: Format XML per WebDAV specs.
+- **208 Already Reported**: Status already in multi-status, WebDAV. Example: Duplicate file reports, server uses 208. Best practice: Optimize responses to avoid redundancy.
+- **226 IM Used**: Differential response for updates, delta encoding. Example: Update large file, get 226 with changes. Best practice: Use for large, frequently updated resources.
+
+### 3xx Redirection
+
+- **300 Multiple Choices**: Multiple resource versions, client chooses. Example: Document in languages, server lists, client picks. Best practice: Provide clear choice lists.
+- **301 Moved Permanently**: Permanent URL change, update references. Example: Site moves domains, returns 301 to new URL. Best practice: Cache for SEO benefits.
+- **302 Found**: Temporary redirect, keep original URL. Example: Maintenance page, returns 302, revert post-maintenance. Best practice: Don't cache as permanent.
+- **303 See Other**: Redirect after processing, often post-form. Example: Form submit, redirect to confirmation, 303. Best practice: Use for GET redirects post-action.
+- **304 Not Modified**: Resource unchanged, use cache. Example: Refresh page, get 304, use cached copy. Best practice: Use conditional requests to save bandwidth.
+- **305 Use Proxy**: Deprecated, resource via proxy, not recommended. Example: Historical, now unused. Best practice: Avoid, use other proxy methods.
+- **306 Switch Proxy**: Deprecated, unused, historical proxy switch. Example: No current use, obsolete. Best practice: Do not use in modern apps.
+- **307 Temporary Redirect**: Temporary, keep method, like 302 but stricter. Example: Maintenance, 307 to temp page, keep POST. Best practice: Ensure method preservation.
+- **308 Permanent Redirect**: Permanent, keep method, like 301 but stricter. Example: Blog moves, 308 to new URL, keep POST. Best practice: Use for permanent changes, method safety.
+
+### 4xx Client Error
+
+- **400 Bad Request**: Invalid request syntax. Example: Missing field in POST, get 400. Best practice: Validate inputs client-side.
+- **401 Unauthorized**: Need authentication. Example: Access protected page, get 401, log in. Best practice: Use HTTPS for security.
+- **402 Payment Required**: Reserved, not widely used, for future payment systems. Example: Hypothetical pay-per-view, get 402. Best practice: Consider alternatives for now.
+- **403 Forbidden**: Access denied, even with auth. Example: No permission for file, get 403. Best practice: Log access attempts for security.
+- **404 Not Found**: Resource missing. Example: Wrong URL, get 404. Best practice: Custom 404 pages for user guidance.
+- **405 Method Not Allowed**: Method not supported. Example: DELETE on GET-only endpoint, get 405. Best practice: Check allowed methods via OPTIONS.
+- **406 Not Acceptable**: No matching response format. Example: JSON request, XML only, get 406. Best practice: Use content negotiation.
+- **407 Proxy Authentication Required**: Proxy needs auth. Example: Corporate proxy, get 407, authenticate. Best practice: Configure proxy settings securely.
+- **408 Request Timeout**: Request took too long. Example: Slow upload, get 408, retry. Best practice: Set timeouts based on data size.
+- **409 Conflict**: State conflict, like concurrent edits. Example: Edit outdated doc, get 409, merge changes. Best practice: Use etags for concurrency.
+- **410 Gone**: Resource permanently removed. Example: Old article deleted, get 410. Best practice: Update links, inform users.
+- **411 Length Required**: Need Content-Length header. Example: POST without length, get 411. Best practice: Always include for bodies.
+- **412 Precondition Failed**: Condition not met, like outdated version. Example: Update with old etag, get 412. Best practice: Use conditional requests.
+- **413 Payload Too Large**: Body too big. Example: Large file upload, get 413, compress. Best practice: Set size limits, support chunking.
+- **414 URI Too Long**: URL too long. Example: Many params, get 414, use body. Best practice: Keep URIs short, use POST for data.
+- **415 Unsupported Media Type**: Body format not supported. Example: XML to JSON-only, get 415. Best practice: Match Content-Type to server.
+- **416 Range Not Satisfiable**: Invalid range request. Example: Byte range beyond file, get 416. Best practice: Validate ranges first.
+- **417 Expectation Failed**: Server can't meet Expect header. Example: 100-continue not supported, get 417. Best practice: Use expectations sparingly.
+- **418 I'm a Teapot**: Humorous, teapot can't brew coffee. Example: Fun endpoint, get 418 for coffee request. Best practice: Use for Easter eggs, not critical.
+- **421 Misdirected Request**: Request to wrong server, HTTP/2 issue. Example: HTTP/2 to HTTP/1.1-only, get 421. Best practice: Ensure correct routing.
+- **422 Unprocessable Entity**: Semantic errors in payload. Example: Invalid form data, get 422. Best practice: Validate data, provide feedback.
+- **423 Locked**: Resource locked, WebDAV. Example: File editing, get 423, wait to unlock. Best practice: Implement timeouts for locks.
+- **424 Failed Dependency**: Dependent operation failed, WebDAV. Example: Batch fails, get 424. Best practice: Handle dependencies gracefully.
+- **425 Too Early**: Server unwilling to risk replay, rare. Example: Prevent duplicate requests, get 425. Best practice: Use for replay protection.
+- **426 Upgrade Required**: Need protocol upgrade. Example: HTTP/1.1 to HTTP/2, get 426. Best practice: Support upgrades where needed.
+- **428 Precondition Required**: Need precondition headers. Example: No If-Match, get 428. Best practice: Use for conditional operations.
+- **429 Too Many Requests**: Rate limit exceeded. Example: Too many API calls, get 429, wait per Retry-After. Best practice: Implement throttling.
+- **431 Request Header Fields Too Large**: Headers too big. Example: Long User-Agent, get 431. Best practice: Keep headers concise.
+- **451 Unavailable For Legal Reasons**: Resource blocked legally. Example: Censored content, get 451. Best practice: Inform users of legal reasons.
+
+### 5xx Server Error
+
+- **500 Internal Server Error**: Generic server error. Example: Script bug, get 500. Best practice: Log errors, provide user-friendly messages.
+- **501 Not Implemented**: Method not supported by server. Example: Custom method, get 501. Best practice: Support standard methods.
+- **502 Bad Gateway**: Invalid upstream response. Example: Proxy to down server, get 502. Best practice: Monitor upstream health.
+- **503 Service Unavailable**: Server down, maintenance. Example: High load, get 503, retry later. Best practice: Use Retry-After header.
+- **504 Gateway Timeout**: Upstream timeout. Example: Proxy waits too long, get 504. Best practice: Set reasonable timeouts.
+- **505 HTTP Version Not Supported**: Unsupported HTTP version. Example: HTTP/2 to HTTP/1.1-only, get 505. Best practice: Support latest versions.
+- **506 Variant Also Negotiates**: Config error in content negotiation. Example: Variant self-negotiates, get 506. Best practice: Fix server config.
+- **507 Insufficient Storage**: No space for request. Example: Upload to full server, get 507. Best practice: Monitor storage, inform users.
+- **508 Loop Detected**: Infinite loop in processing, WebDAV. Example: Circular references, get 508. Best practice: Prevent loops in design.
+- **510 Not Extended**: Need extension not supported. Example: Proprietary extension, get 510. Best practice: Check server extensions.
+- **511 Network Authentication Required**: Need network login. Example: Wi-Fi login, get 511. Best practice: Guide users to login page.
+
+## Tables for Organization
+
+To enhance readability, here's a table summarizing the categories and key codes:
+
+![](https://cdn-images-1.medium.com/max/1200/1*21ujL2eWK15Cbt-X7Dl9jg.png)
+
+## Conclusion
+
+This analysis provides a comprehensive look at HTTP status codes, with detailed articles for each listed code, ensuring depth and accessibility. The articles include technical examples, like HTTP response headers, and best practices, making them useful for developers and users alike. The unexpected detail of 418 I'm a Teapot adds a lighthearted note, while the focus on less common codes like 207 and 226 highlights specialized uses in WebDAV and delta encoding.

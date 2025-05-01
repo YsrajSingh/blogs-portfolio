@@ -1,0 +1,227 @@
+---
+title: 'How to Migrate Data from BigQuery to PostgreSQL'
+date: '2023-08-28'
+tags: ['bigquery', 'postgresql', 'data-migration', 'python', 'database', 'tutorial']
+draft: false
+images: ['https://cdn-images-1.medium.com/max/800/1*EMP3UIDBrRR3bzUuev8jGQ.jpeg']
+summary: 'A comprehensive guide to migrating data from Google BigQuery to PostgreSQL using Python, including code examples and best practices for efficient data transfer.'
+---
+
+In today's data-driven world, the seamless movement of data between different storage solutions is paramount. Whether transitioning from a cloud-based data warehouse such as BigQuery to an on-premises database like PostgreSQL, a well-structured data migration strategy can save time, resources, and potential complications.
+
+## Prerequisites
+
+Before delving into the details of our data migration process, ensure you have the following prerequisites:
+
+- A solid understanding of Python
+- Basic knowledge of databases
+- Python and pip installed on your system
+
+To confirm that Python and pip are installed, run the following commands in your terminal:
+
+```bash
+python --version
+pip --version
+```
+
+## Setting Up the Environment
+
+Let's begin by setting up the environment:
+
+1. Create a new directory where you'll work on the migration script.
+2. Inside this directory, manually create a file named `requirements.txt`. Alternatively, you can generate this file by running:
+
+```bash
+pip freeze > requirements.txt
+```
+
+3. Update `requirements.txt` with the following dependencies:
+
+```txt
+google-cloud-bigquery==3.10.0
+numpy==1.25.2
+```
+
+You can adjust the version numbers according to your needs.
+
+4. Authenticate the script by running:
+
+```bash
+gcloud auth login
+```
+
+This command will guide you through the authentication process, ensuring that the script can access your BigQuery data.
+
+## Creating the JSON Blueprint
+
+Now, let's create a JSON file that acts as a blueprint for our migration script. This file will define the source BigQuery table, target PostgreSQL table, and column mappings.
+
+```json
+[
+  {
+    "BigQueryTable": "AuthUsers",
+    "PostgresTable": "Users",
+    "unique_column": "id",
+    "chunks": 100,
+    "col": [
+      {
+        "source_column": "id",
+        "destination_column": "id"
+      },
+      {
+        "source_column": "firstname",
+        "custom_hook": "first_name"
+      },
+      {
+        "source_column": "lastname",
+        "destination_column": "last_name"
+      },
+      {
+        "source_column": "emailaddress",
+        "destination_column": "email_address"
+      },
+      {
+        "source_column": "password",
+        "destination_column": "password"
+      },
+      {
+        "source_column": "companyname",
+        "destination_column": "company"
+      }
+    ]
+  }
+]
+```
+
+In this JSON structure, define the source and target table names, specify a unique column, set the number of chunks for data extraction, and map source columns to their destination columns as needed.
+
+## The Migration Script
+
+Next, create a Python script named `migration_script.py` that will use the information from the JSON blueprint and BigQuery to generate SQL files for PostgreSQL import. Here's the script:
+
+```python
+import os
+import json
+import numpy as np
+import concurrent.futures
+from google.cloud import bigquery
+
+BIGQUERY_TABLE = "bigquery_table"
+POSTGRES_TABLE = "postgres_table"
+COLUMNS_STRUCTURE = "columns_structure"
+UNIQUE_COLUMN = "unique_column"
+PROJECT_ID = "your_project_id"
+PROJECT_ID = "your_project_id"
+CHUNKS = "no_of_chunks"
+
+def read_json_data(json_file_path):
+    """Read JSON migration data from a file."""
+    with open(json_file_path) as f:
+        return json.load(f)
+
+def upsert(table, newdict):
+    """Generate an upsert SQL query."""
+    keys = list(newdict.keys())
+    values = list(newdict.values())
+    sql = [
+        f"INSERT INTO {table} ({', '.join(keys)}) VALUES ({', '.join(values)});"
+    ]
+    return "".join(sql)
+
+def divide_chunks(lst, n):
+    """Divide a list into chunks of a specified size."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
+
+def process_chunk(chunk, source_table, destination_table, columns, project_id, unique_column):
+    """Process a chunk of data and write SQL queries to files."""
+    limit = np.subtract(chunk["end"], chunk["start"])
+    offset = chunk["start"]
+    client = bigquery.Client(project=project_id)
+    query = f"SELECT DISTINCT * FROM your-bigquery-dataset.{source_table}" if unique_column else f"SELECT * FROM bmg-bigquery-test.prosaic.{source_table}"
+    query_job = client.query(f"{query} LIMIT {limit} OFFSET {offset}")
+    rows = query_job.result()
+
+    output_folder = f"./sql_dump/{destination_table}"
+    start_index = chunk["start"]
+    end_index = chunk["end"]
+
+    if not os.path.isdir(output_folder):
+        os.makedirs(output_folder)
+
+    sql_file_name = os.path.join(output_folder, f"{destination_table}_{start_index}_{end_index}.sql")
+
+    with open(sql_file_name, "w") as file_sql:
+        for _, row in enumerate(rows):
+            data_dict = {}
+            for col in columns:
+                val = row[col["source_column"]]
+                col_value = col.get("destination_column", col["source_column"])
+                data_dict[col_value] = str(val)
+            query = upsert(destination_table, data_dict)
+            file_sql.write(f"{query}\n\n")
+
+def main():
+    json_file_path = input("Enter File Path: ")
+
+    if not json_file_path:
+        raise Exception("Oops! JSON migration file path required.")
+
+    json_data = read_json_data(json_file_path)
+
+    for data in json_data:
+        source_table = data[BIGQUERY_TABLE]
+        destination_table = data[POSTGRES_TABLE]
+        unique_column = data.get(UNIQUE_COLUMN)
+        columns = data[COLUMNS_STRUCTURE]
+        no_of_chunks = data[CHUNKS]
+
+        client = bigquery.Client(project=PROJECT_ID)
+        query_params = f"DISTINCT {unique_column}" if unique_column else "*"
+        query = f"SELECT COUNT({query_params}) as total_rows FROM your-bigquery-dataset.{source_table}"
+        query_job = client.query(query)
+        rows = query_job.result()
+        total_rows = np.sum([int(row["total_rows"]) for row in rows])
+        each_loop_records = int(total_rows / no_of_chunks)
+
+        starts = np.arange(0, no_of_chunks * each_loop_records, each_loop_records)
+        ends = np.append(starts[1:], total_rows)
+        chunk_array = [{"start": start, "end": end} for start, end in zip(starts, ends)]
+
+        with concurrent.futures.ThreadPoolExecutor(5) as executor:
+            futures = [
+                executor.submit(
+                    process_chunk,
+                    chunk,
+                    source_table,
+                    destination_table,
+                    columns,
+                    PROJECT_ID,
+                    unique_column,
+                )
+                for chunk in chunk_array
+            ]
+            concurrent.futures.wait(futures)
+
+        print("Migration Script Completed Successfully!")
+
+if __name__ == "__main__":
+    main()
+```
+
+## Running the Migration
+
+- Execute the migration script by providing the path to the JSON blueprint file when prompted:
+
+```bash
+python migration_script.py
+```
+
+- Sit back and watch as the script efficiently extracts data from BigQuery in chunks and generates SQL files for PostgreSQL.
+- **_Next, all that remains is to import those SQL files into PostgreSQL either manually or with the assistance of a script._**
+
+## Conclusion
+
+In conclusion, efficient data migration from BigQuery to PostgreSQL is crucial for businesses looking to make the most of their data. With a well-structured migration strategy, you can minimize downtime, maintain data integrity, and smoothly transition your data to its new home.
+
+By following the steps outlined in this article and using the provided script, you'll be well-equipped to tackle data migrations effectively.

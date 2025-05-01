@@ -1,0 +1,120 @@
+---
+title: 'How AI runs my medium account'
+date: '2025-01-20'
+tags: ['ai', 'automation', 'medium', 'writing', 'personal-experience']
+draft: false
+images: ['https://cdn-images-1.medium.com/max/800/1*aie4SLSP52GolWp1uD9Lbg.png']
+summary: Have you ever wondered if artificial intelligence could write articles on Medium? This article shares my experience with creating an AI-powered system to automate article writing and publishing on Medium.
+---
+
+# How AI runs my medium account
+
+Have you ever wondered if artificial intelligence could write articles on Medium?
+
+![](https://cdn-images-1.medium.com/max/800/1*aie4SLSP52GolWp1uD9Lbg.png)
+_This image might not be great because I designed it 😅, but I'm sure you'll love the article! 😊_
+
+## My Thoughtful Beginning
+
+It's a question I asked myself one day, and being a software developer, I couldn't resist exploring the possibilities. Writing has always been a passion of mine — it helps me untangle my thoughts, share my experiences, and connect with others. But life gets busy, and consistency can be a struggle. This is where the idea of using AI came into play.
+
+Let me share my story — the ups, downs, and reflections of creating an automated system to write articles for Medium. It's more than just a technical tale; it's a journey of balancing efficiency with authenticity.
+
+![](https://cdn-images-1.medium.com/max/800/1*v5DroBzQdeEsLQTEvBYY7A.jpeg)
+_[Source: Freepik](https://freepik.com/free-photo/people-carrying-burden-concept_36029275.htm)_
+
+## Why Automate Writing?
+
+The idea struck me during one of those overwhelming weeks when deadlines and personal commitments left me with little time to write. I thought, "What if I could automate this?" Imagine a system that could ensure my Medium account stays active, publishing thoughtful articles regularly, without the stress of deadlines.
+
+I started envisioning a system where AI could draft articles based on my ideas, freeing me up to focus on reviews and refinements. The goal wasn't to replace me but to complement my creative process. Here's how I brought this concept to life.
+
+## Building My AI-Powered System
+
+### My AI Application:
+
+The first step was to create a web application using Node.js. I wanted it to be user-friendly yet powerful. Here's what I designed:
+
+**Login Page**: A simple way for me to authenticate and access the system.
+
+**Dashboard**: A hub showing:
+
+- Connected Medium accounts.
+- The last published article's date and time.
+- The schedule for upcoming posts.
+- A count of articles in the queue.
+
+**Sidebar Menus**:
+
+- **Medium Accounts**: Where I could add or manage Medium account labels and Medium API Keys (Integrated tokens).
+- **Articles**: A dropdown with account-specific articles, displaying their titles, statuses (e.g., pending, processed, published), and schedules.
+
+![](https://cdn-images-1.medium.com/max/800/1*P424PAlAyG629v-ckHU4JA.jpeg)
+_[Source: Freepik](https://freepik.com/free-photo/top-view-desk-arrangement-with-person-writing_4950457.htm)_
+
+## Automating the Writing Process
+
+### AI in Content Creation
+
+Now, we have a list of articles and dates when the article is going to publish. After this, before the specified date. **AI comes in as the hero.** Our program provides the topic to AI along with a custom, unique prompt, and AI writes an article on that title. The article is then shared with the user for review via Telegram bots. The user reads the article and provides feedback. AI reviews the feedback and updates the article accordingly.
+
+Also, AI also suggests which images should be placed at specific locations within the article. If, after the second review, the article is approved by the user, we proceed to the second phase: image generation.
+
+### AI in Image Generation
+
+Based on the article generated in the first phase and the image prompts, our second model (actually the first model in the second phase) reviews the article and identifies where the AI in the first phase suggested images be generated. Our second model then generates the images as per the instructions in the article.
+
+Next, the generated images are placed at the specified locations, and the article is shared with the user again on Telegram via bots. This time, the user only reviews the images and provides feedback. The AI model then reviews the feedback and works on adjusting the images. Otherwise if user approves the article and did not provide any feedback, then we move to the third or last phase.
+
+### Third Phase: Tag Generation and Scheduling
+
+The third phase involves tag generation and scheduling the publishing. In this phase, we generate five tags for the article as suggested by AI and select the time from database when the article should be published. The AI-suggested tags and the publishing date/time are sent to the user. If the user approves, everything is set; if not, the tags and publishing time are updated according to the user's suggestions. Note that we have not integrated AI for the second iteration/approval of the tags or the date/time.
+
+### Final Steps: Saving and Publishing the Article
+
+Once everything is finalized, the article is saved in the database along with the images. Then, at the specified date and time, the article is published using the Medium API.
+
+> All done. Congratulations! AI posts the article on Medium for us, and for free.
+
+### User Interaction via Telegram Bots
+
+It's important to note that all interactions with the user are done via Telegram bots. We cannot remove human involvement here, because user interaction is necessary for reviewing the content that will be published on their account. This ensures that the user can give instructions to AI to update the article and images according to their preferences.
+
+### Future Improvements: Replacing Human with AI
+
+In the future, we may replace human interaction with AI models. My plan is to integrate another AI model that will review the article created by the first AI model. This would eliminate the need for human involvement in reviewing the article, streamlining the process.
+
+> Hold on! Currently, this project is not on live right now, and any future improvements are just ideas in my mind. At the moment, I'm not actively working on it, and looking back, I believe this was the best decision I made last year. WHY ?
+
+> A notebook, a pen, and a cup of coffee are enough for me to live a healthy life — and better than AI writing articles for me. 😊
+
+![](https://cdn-images-1.medium.com/max/800/1*YNfV6v_rtr71R2SGtIYUPQ.jpeg)
+_[Source: Freepik](https://www.freepik.com/free-photo/coffee-relaxation-beverage-planning-data-digital-concept_2760906.htm)_
+
+## Why I Stopped
+
+I eventually decided to stop using the system, not just because of the API changes _(you can see things below)_ but also because it didn't align with my original purpose for writing. I started writing on Medium to share my authentic thoughts and connect with others. Automating that process felt like betraying my own intentions.
+
+Now, I'm back to writing the old-fashioned way — with my heart and hands. It's slower, sure, but it's genuine, and that's what matters.
+
+## Medium's Update with 3rd app integration
+
+One more thing, I found that Medium has discontinued its API integration with third-party applications. For example, you can no longer find the **'Integrated Tokens'** section in your Medium profile. According to their update, they will not be providing any new integrated tokens, although the previous ones are still working fine.
+
+![](https://cdn-images-1.medium.com/max/800/1*HAzc2q0z1bRxNrUuLXMHww.png)
+_[Source: Medium API Documentation](https://help.medium.com/hc/en-us/articles/213480228-API-Importing)_
+
+**Please read the full article here:**
+[Medium API Importing Documentation](https://help.medium.com/hc/en-us/articles/213480228-API-Importing)
+
+## Lessons Learned
+
+Initially, I was thrilled with the efficiency of my system. It felt incredible to watch AI turn my ideas into polished articles. But soon, I began to feel uneasy. Writing for me had always been a deeply personal act. Automating it, felt like I was losing a piece of myself.
+
+One evening, as I read an AI-generated article, I realized it lacked the soul and spontaneity that came from my struggles and triumphs. It was good — technically perfect, even — but it wasn't me. I didn't get the feelings in article which I want to share.
+
+## Conclusion
+
+This journey taught me that while AI can be a powerful tool, some things are best left to humans. Writing is not just about the words; it's about the emotions and experiences behind them. For me, staying true to that essence was worth giving up the convenience of automation.
+
+Thank you for joining me on this journey. If you've ever blended AI with creativity, I'd love to hear your story. And if you have suggestions for where to place images in this article, please share them!

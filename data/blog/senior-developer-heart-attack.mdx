@@ -1,0 +1,79 @@
+---
+title: "The Day My Senior Developer's Code Almost Gave Me a Heart Attack (and How We Fixed It!)"
+date: '2024-03-11'
+tags: ['security', 'code-review', 'best-practices']
+draft: false
+images: ['https://cdn-images-1.medium.com/max/800/1*2mQL341r1R9ebhs5f2dVqg.jpeg']
+summary: "We've all been there. You're cruising through code review, feeling confident and productive, when suddenly a bug slams on the brakes and sends you careening into a pit of 'oh no.'"
+---
+
+# The Day My Senior Developer's Code Almost Gave Me a Heart Attack (and How We Fixed It!)
+
+We've all been there. You're cruising through code review, feeling confident and productive, when suddenly a bug slams on the brakes and sends you careening into a pit of "oh no."
+
+Today's story features one such bug, a seemingly minor oversight in some senior developer code (don't worry, they're cool with it!) that could have had some major consequences.
+
+![](https://cdn-images-1.medium.com/max/800/1*O2-AoDbIQf33XJPDwTUIkw.jpeg)
+
+## The (Almost) Disaster:
+
+The code in question dealt with sending emails containing unique login links. These links were supposed to be a one-time deal, expiring after a set amount of time. Imagine my surprise when I discovered they were, well, **eternal**. Anyone who intercepted the link could potentially use it to access our platform, essentially creating a master key for unauthorized entry.
+
+## Danger Level: Extreme
+
+Here's the scary part: according to a report by Verizon **(**[https://www.verizon.com/business/resources/reports/dbir/](https://www.verizon.com/business/resources/reports/dbir/)**)**, stolen credentials are a major culprit in data breaches, accounting for **82% of hacking-related incidents**. A single, easily accessible login link could have been a goldmine for attackers.
+
+## From Faux Pas to Fix-It!
+
+Thankfully, the solution wasn't rocket science. We implemented a two-step verification system:
+
+1. **Time Travel? Not Today:** We added server-side logic to check not just the link itself, but also a timestamp embedded within it. This timestamp acts like a self-destruct timer, ensuring the link becomes invalid after a set period.
+2. **Uniquely Yours:** To add another layer of security, we incorporated a unique identifier tied to the user within the link. This personalizes the link, making it useless for anyone other than the intended recipient.
+
+## Lessons Learned (the Fun Part):
+
+This experience serves as a valuable reminder that even seasoned developers can miss a crucial detail. Here are some key takeaways:
+
+- **Code Reviews: Your Bug-Squashing BFF:** Regular code reviews are like having a superhero sidekick. They help identify potential weaknesses before they become real problems.
+- **Defense in Depth:** Don't put all your eggs in one security basket! Our new system uses both timestamps and unique identifiers, making it harder for attackers to crack.
+- **Security Never Sleeps:** Just like brushing your teeth, security needs constant attention. Staying updated on best practices and implementing improvements is essential.
+
+## The Takeaway:
+
+> This bug may have been a close call, but it ultimately led to a stronger, more secure system. Remember, developers are human (shocking, I know!), and even the best can make mistakes. The important thing is to learn from them and prioritize security in everything we do.
+
+**Bonus! Here's a nifty diagram to illustrate the loophole and the fix:**
+
+## Loophole:
+
+```css
+Imagine a Login Link like a Movie Ticket Stub
+```
+
+```
+User Requests Login -> Server Sends Unique Link (Stub) in Email -> User Clicks Link -> Granted Access
+```
+
+```
+**Problem:** The Stub Never Expires! Anyone with the Stub can enter.
+```
+
+## Fix:
+
+```css
+Now the Stub has a Time Limit and a Secret Code (Unique Identifier)
+```
+
+```
+User Requests Login -> Server Sends Unique Link (Stub with Time Limit & Secret Code) in Email -> User Clicks Link -> Server Verifies Link Validity (Time & Code) -> Granted Access (if valid)
+```
+
+```
+**Solution:** The Stub self-destructs after a set time and is specific to the user.
+```
+
+## By working together and learning from our mistakes, we can build a more secure future (and maybe avoid a few heart attacks along the way!).
+
+## Conclusion:
+
+This experience with the "everlasting login link" serves as a powerful reminder that security is an ongoing process. It requires constant vigilance, collaboration, and a commitment to learning from mistakes. By implementing a robust solution and sharing this story, we hope to raise awareness of potential vulnerabilities and inspire a proactive approach to securing online platforms. Remember, even seemingly minor bugs can have significant consequences. Let's continue to prioritize security in every step of the development process, ensuring a safer digital environment for everyone.

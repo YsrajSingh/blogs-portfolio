@@ -1,0 +1,148 @@
+---
+title: 'Unlimited Medium Followers: Is Medium Hacked?'
+date: '2023-10-08'
+tags: ['medium', 'python', 'automation', 'social-media', 'tutorial']
+draft: false
+summary: 'A comprehensive guide on using a Python script to increase your Medium followers, including setup instructions for both beginners and experienced users.'
+images: ['https://cdn-images-1.medium.com/max/800/0*0R2Stlzd_HJABgj1']
+authors: ['default']
+---
+
+In this article, I'll introduce you to an innovative method that can boost your follower count on Medium using a Python script. Unlike traditional advice that focuses on writing techniques, images, or other common strategies, this approach is purely code-driven. It's not your typical article filled with writing tips; instead, it offers a practical way to increase your followers, even if you're new to Medium or haven't published any articles yet. It's important to note that this method is unique and has no intent to harm anyone.
+
+> If, for any reason, you encounter difficulties running this script, please feel free to reach out to me. I will be more than happy to assist you.
+
+## Overview
+
+Even if you have no prior experience with coding or programming, you can easily use this script.
+
+Now, let's set the stage. I personally applied and tested this script on my own account to gain my initial 100 followers. Yes, you read that correctly; it's not just a claim. You might wonder why I didn't continue using the script to amass even more followers. The answer is simple: I prefer organic growth. My goal was to reach that initial milestone of 100 followers, which I achieved in just five days using this script.
+
+## A Basic Overview of Script
+
+Let's illustrate this concept with an example. Imagine you're following 1000 users on Instagram, and there's a chance, even if it's a minimum of 1 percent, that some of these users will follow you back.
+
+But don't worry — you don't need to manually follow 1000 users. This is where the Python script comes into play to increase your followers.
+
+Now, let's apply the same algorithm to Medium. I've developed a script that simplifies the process to just three inputs:
+
+1. Your Username
+2. The Username of the Person you want to target (whose followers you'd like to become your followers)
+3. Your unique token
+
+## Setup the Script
+
+Next, I'll explain two methods for running this script:
+
+1. **For Beginners:** If you have no prior experience with coding or programming.
+2. **For Experienced Users:** If you already have coding or programming knowledge.
+
+### For Beginners
+
+Hello once more! Let's get started and walk through how to utilize this script.
+
+Here are the steps:
+
+1. Begin by downloading Python from the official website. ([https://www.python.org/downloads/](https://www.python.org/downloads/))
+
+![Python Download Page](https://cdn-images-1.medium.com/max/800/1*U8ieopVT6Ba7JQNbehdS8w.png)
+
+2. Verify that you've installed Python by checking its version using the terminal.
+
+![Python Version Check](https://cdn-images-1.medium.com/max/800/1*FKvq-Hnz9VHZbnpJRZ1VTA.png)
+
+3. Download the script and extract the contents from the zip file.
+
+![Script Download](https://cdn-images-1.medium.com/max/800/1*ORwjrnhQFCSqftbZrbWfAw.png)
+
+4. Navigate to the script folder in your file system.
+5. Open a terminal within the script folder.
+
+![Terminal in Script Folder](https://cdn-images-1.medium.com/max/800/1*K4lZE0deDzQfyTL9q8sqQA.png)
+
+6. Install the necessary dependencies by executing the following command:
+
+```bash
+pip install -r requirements.txt
+```
+
+### For Experienced Users
+
+**Prerequisites:** Python with Pip
+
+For experienced users, the process is straightforward:
+
+1. Clone the script from my GitHub repository at [https://github.com/YsrajSingh/medium-hack](https://github.com/YsrajSingh/medium-hack).
+2. Navigate to the project directory using the following command:
+
+```bash
+cd medium-hack
+```
+
+3. Install the Python dependencies. You can also choose to create a virtual environment and install the dependencies within it:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Run The Script
+
+To execute this script, you should follow these steps:
+
+1. Open your terminal.
+2. Run the script by entering the following command:
+
+```bash
+python app.py
+```
+
+3. After running the script, a prompt will appear in your terminal if everything is as expected. Inside this prompt, you'll be asked to provide the following information:
+
+> Example to find your and target username.
+
+![Username Examples](https://cdn-images-1.medium.com/max/800/1*4tt5sYuWmwrIt3RjS3Qj0Q.png)
+
+> How to find unique token
+
+1. _To find your unique token, open your browser's console by right-clicking anywhere on the browser screen and selecting "Inspect."_
+2. _Navigate to the "Network" tab and then select the "Clear Network" option._
+
+![Network Tab](https://cdn-images-1.medium.com/max/800/1*yYPY59-VlcVOizLChhAlag.png)
+
+_3. To easily locate your unique token, follow someone on Medium. In the "Network" tab, you'll notice a line labeled "graphql." Click on it, and then copy the value of the "Cookie" field. This value is your unique token._
+
+![Finding Token](https://cdn-images-1.medium.com/max/800/1*G_Tpv4BLUJ4-h8_0cXx4RA.png)
+
+You'll need to provide:
+
+- Your Medium username
+- The Medium username of your target user
+- Your unique token
+
+If you're unsure about how to obtain your username, target username, or unique token, you can refer to the following guide.
+
+4. The script may take a few seconds to execute because it first needs to fetch the list of users for both your account and the target user's account. Once the user lists are fetched, it will automatically start following users according to the provided information.
+
+![Script Execution](https://cdn-images-1.medium.com/max/800/1*L9d_Qbs6P3vmsivV50jO9Q.png)
+
+> I mark this black only due to security reasons. There is no any other purpose of this here.
+
+and at last there will start printing "Following users with id:"
+
+## Point to Notice
+
+1. There is a daily limit on Medium, allowing you to follow up to 150 users per day.
+2. The script is designed to be intelligent and will automatically stop once it reaches this daily limit.
+
+## Contributions
+
+I welcome contributions to this project. There are several updates I plan to implement:
+
+1. **User-Friendly Interface:** I aim to create a user-friendly interface so that those without coding knowledge won't need to download the script or perform manual steps like installing Python.
+2. **Parallel Processing for Efficiency:** To enhance the script's efficiency, I'm considering implementing parallel processing to reduce the execution time.
+3. **Unfollow Script:** I'm currently working on an "unfollow" script, and I'll provide updates as soon as it's ready.
+4. **Open to Suggestions:** I'm open to any other suggestions, updates, or bug fixes that the community may have. Your input is highly appreciated.
+
+## See you soon
+
+I hope you find this script both enjoyable and useful. I'll ensure to promptly update the article if there are any future improvements to the Python script. Whether you've just reached your first 100 followers or already have a substantial following, congratulations are in order!
