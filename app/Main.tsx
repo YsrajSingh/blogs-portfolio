@@ -1,36 +1,63 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 
-const MAX_DISPLAY = 5
+const POSTS_PER_PAGE = 9
 
-export default function Home({ posts }) {
+interface Post {
+  slug: string
+  date: string
+  title: string
+  summary: string
+  tags: string[]
+  images: string[]
+  path: string
+}
+
+export default function Home({ posts }: { posts: Post[] }) {
+  const [displayedPosts, setDisplayedPosts] = useState<Post[]>([])
+  const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
+  const [hasMore, setHasMore] = useState(true)
+  const observer = useRef<IntersectionObserver | null>(null)
+  const loadingRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (loading) return
+      if (observer.current) observer.current.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1)
+        }
+      })
+      if (node) observer.current.observe(node)
+    },
+    [loading, hasMore]
+  )
 
   useEffect(() => {
-    // Simulate a delay for loading state.
+    // Initial loading state
     const timeout = setTimeout(() => {
       setLoading(false)
-    }, 3000)
+    }, 1000)
     return () => clearTimeout(timeout)
   }, [])
 
+  useEffect(() => {
+    const newPosts = posts.slice(0, page * POSTS_PER_PAGE)
+    setDisplayedPosts(newPosts)
+    setHasMore(newPosts.length < posts.length)
+  }, [page, posts])
+
   // Trims the summary to 20 words and adds "..." if more words exist.
-  const trimSummary = (summary, wordCount = 20) => {
+  const trimSummary = (summary: string, wordCount = 20) => {
     if (!summary) return ''
     const words = summary.split(' ')
     return words.length > wordCount ? words.slice(0, wordCount).join(' ') + '...' : summary
   }
 
-  // Opens the blog post link (using the post's path) in a new tab.
-  // This can redirect to a full blogs list or external source if you need to.
-  const handleReadMoreClick = () => {
-    window.open('https://yourblogpage.com', '_blank') // change URL as needed
-  }
-
   return (
-    <div className="mx-auto mt-20 w-full max-w-6xl px-4 py-6 md:mt-28 md:px-6 md:py-10">
+    <div className="mx-auto mt-12 w-full max-w-6xl px-4 py-6 md:mt-8 md:px-6 md:py-10">
       <h1 className="mb-6 text-4xl font-bold text-gray-800 md:mb-10 md:text-6xl">Blogs</h1>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-3">
@@ -53,12 +80,12 @@ export default function Home({ posts }) {
                   </div>
                 </div>
               ))
-          : posts.slice(0, MAX_DISPLAY).map((post) => {
+          : displayedPosts.map((post) => {
               const { slug, date, title, summary, tags, images, path } = post
               return (
                 <Link
                   key={slug}
-                  className="flex cursor-pointer flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl"
+                  className="flex cursor-pointer flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-xl"
                   role="button"
                   tabIndex={0}
                   href={path}
@@ -77,7 +104,7 @@ export default function Home({ posts }) {
                       quality={70}
                     />
                   ) : (
-                    <div className="h-36 w-full bg-gray-200 md:h-48"></div> // ← Placeholder div
+                    <div className="h-36 w-full bg-gray-200 md:h-48"></div>
                   )}
 
                   {/* Content */}
@@ -116,14 +143,12 @@ export default function Home({ posts }) {
             })}
       </div>
 
-      <div className="mt-8 text-center">
-        <button
-          onClick={handleReadMoreClick}
-          className="rounded-lg bg-gray-800 px-4 py-2 font-semibold text-white transition-colors hover:bg-black md:px-6"
-        >
-          Read More
-        </button>
-      </div>
+      {/* Loading indicator */}
+      {hasMore && !loading && (
+        <div ref={loadingRef} className="mt-8 flex justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-gray-800"></div>
+        </div>
+      )}
     </div>
   )
 }
