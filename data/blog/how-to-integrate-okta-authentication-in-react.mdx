@@ -10,7 +10,19 @@ authors: ['default']
 
 In this tutorial, we will explore how to integrate Okta Authentication into our React application. Our overarching goal is to implement Okta authentication in both our frontend (React) and backend (FastAPI). This tutorial will specifically focus on the React application.
 
+![Okta Authentication](https://cdn-images-1.medium.com/max/800/1*lRlqbbMuyHlaVz1uUWHEeg.jpeg)
+
 Before proceeding, it's important to note that we have a prior tutorial that explains how to generate an Okta domain and Client ID, which we will be using in our React application. To begin, please review this tutorial: [Okta Authentication](https://ysraz.medium.com/enabling-okta-authentication-in-react-and-fastapi-58f629d88f9d) (Okta Setup)
+
+## Prerequisites
+
+Before we begin, make sure you have:
+
+- Node.js installed on your system
+- An Okta developer account
+- Basic knowledge of React
+
+<BlogNewsletterForm title="Want more authentication tutorials?" />
 
 ## Installing Okta Dependencies
 
@@ -108,8 +120,6 @@ class AppRoutes extends Component {
 
 export default AppRoutes;
 ```
-
-In the code above, you can see that the "index" and "login/callback" routes are public because we use the "Route" component from react-router-dom. Meanwhile, "SecretPage1" and "SecretPage2" are private routes as they use the "SecureRoute" component from "@okta/okta-react." Additionally, there is a wrapper for the "Security" component.
 
 ## Examining the Root File
 

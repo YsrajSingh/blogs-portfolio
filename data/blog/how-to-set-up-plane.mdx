@@ -7,11 +7,9 @@ images: ['https://cdn-images-1.medium.com/max/1200/1*4UhmdfyRDLuCoCX9e-rD7w.jpeg
 summary: A comprehensive guide to setting up Plane, a free and open-source project management tool, using Docker. Learn how to configure environment variables, set up Nginx, and create your first admin user.
 ---
 
-# How to Set Up Plane: The Ultimate Free Jira Alternative
-
 > Are you looking for a cost-effective, self-hosted project management tool that rivals Jira? Plane, an open-source alternative, provides robust features for task management, project tracking, and team collaboration — all at no cost. In this article, we'll guide you through setting up Plane using Docker, giving you a powerful project management system without the associated costs of proprietary solutions.
 
-![](https://cdn-images-1.medium.com/max/1200/1*4UhmdfyRDLuCoCX9e-rD7w.jpeg)
+![Plane Setup](https://cdn-images-1.medium.com/max/1200/1*4UhmdfyRDLuCoCX9e-rD7w.jpeg)
 
 ## What is Plane?
 
@@ -34,7 +32,7 @@ Here, now we are going to setup plane on a my AWS server. You can use own server
 
 Before proceeding, ensure you have access to your remote server. Use your preferred method, such as SSH or a remote desktop connection, to log in.
 
-![](https://cdn-images-1.medium.com/max/800/1*O0bB-ak7OywY7hSMuFs70g.png)
+![Server Connection](https://cdn-images-1.medium.com/max/800/1*O0bB-ak7OywY7hSMuFs70g.png)
 
 ### Step 2: Verify Docker and Docker Compose Installation
 
@@ -45,11 +43,13 @@ docker --version
 docker-compose version
 ```
 
-![](https://cdn-images-1.medium.com/max/800/1*sLIML1hC4hefZJ0qTCH1iw.png)
+![Docker Version Check](https://cdn-images-1.medium.com/max/800/1*sLIML1hC4hefZJ0qTCH1iw.png)
 
 If either command returns an error or an unsupported version, you'll need to install or update the respective tool.
 
 **Note:** This version check is primarily to ensure that both Docker and Docker Compose are installed and accessible on your system. The specific versions may not be critical unless you're dealing with compatibility issues or require certain features.
+
+<BlogNewsletterForm title="Want more Docker and self-hosting tutorials?" />
 
 ### Step 3: Clone the Official Plane Setup from GitHub
 

@@ -10,6 +10,12 @@ authors: ['default']
 
 Welcome to our step-by-step guide on domain unblocking using a Python script. In this article, we'll explore the process of unblocking domains that were previously blocked, all without the need for third-party libraries. All you need is a basic understanding of Python and the root permissions for your system. Root permissions are essential for this process, and on Linux and macOS, you can use 'sudo,' while on Windows, administrative access to the terminal is required.
 
+![Domain Unblocking](https://cdn-images-1.medium.com/max/800/1*VnqLB-BRcyPhbv9tojpz9Q.jpeg)
+
+## Understanding the Script
+
+Let's break down how this script works and what each part does.
+
 ## The Python Script
 
 In the following sections, we'll dive into the Python script responsible for unblocking domains. This script is as straightforward and efficient as its blocking counterpart and requires no external libraries. It empowers you to regain access to previously blocked domains.
@@ -40,6 +46,8 @@ with open(hosts_path, "w") as hosts_file:
 
 print(f"Unblocked {target} in the host file.")
 ```
+
+<BlogNewsletterForm title="Want more Python automation tutorials?" />
 
 As demonstrated in the code above, you can specify the domain you want to unblock by customizing the 'target' variable. The script efficiently removes the block entry, allowing access to your desired domain once again.
 
