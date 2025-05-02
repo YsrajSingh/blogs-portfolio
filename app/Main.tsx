@@ -39,7 +39,7 @@ export default function Home({ posts }: { posts: Post[] }) {
     // Initial loading state
     const timeout = setTimeout(() => {
       setLoading(false)
-    }, 1000)
+    }, 100)
     return () => clearTimeout(timeout)
   }, [])
 
