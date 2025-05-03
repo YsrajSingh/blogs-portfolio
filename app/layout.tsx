@@ -12,6 +12,7 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 // import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
+import Script from 'next/script'
 
 // const space_grotesk = Space_Grotesk({
 //   subsets: ['latin'],
@@ -102,11 +103,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         href={`${basePath}/static/favicons/safari-pinned-tab.svg`}
         color="#5bbad5"
       />
-      <script
-        async
+      <Script
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3695234063616330"
+        strategy="afterInteractive"
         crossOrigin="anonymous"
-      ></script>
+      />
       <meta name="msapplication-TileColor" content="#000000" />
       {/* <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" /> */}
