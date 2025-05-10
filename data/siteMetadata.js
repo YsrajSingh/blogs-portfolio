@@ -8,7 +8,7 @@ const siteMetadata = {
   theme: 'light', // system, dark or light
   siteUrl: 'https://blogs.yashrajs.com/',
   siteRepo: 'https://github.com/YsrajSingh/blogs-portfolio',
-  siteLogo: `${process.env.BASE_PATH || ''}/static/icons/android-chrome-192x192.png`,
+  siteLogo: `${process.env.BASE_PATH || ''}/static/favicons/android-chrome-512x512.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
   mastodon: '',
   email: 'contact@yashrajs.com',

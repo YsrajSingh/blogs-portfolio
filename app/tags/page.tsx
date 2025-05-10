@@ -11,31 +11,40 @@ export default async function Page() {
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
   return (
-    <>
-      <div className="flex flex-col items-start justify-start divide-y divide-gray-200 md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6 md:divide-y-0 dark:divide-gray-700">
-        <div className="space-x-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:border-r-2 md:px-6 md:text-6xl md:leading-14 dark:text-gray-100">
+    <div className="container mx-auto px-4 py-12">
+      <div className="mx-auto max-w-6xl text-center">
+        <div className="mb-12 text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl dark:text-gray-100">
             Tags
           </h1>
+          <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+            Browse all topics and categories
+          </p>
         </div>
-        <div className="flex max-w-lg flex-wrap">
-          {tagKeys.length === 0 && 'No tags found.'}
-          {sortedTags.map((t) => {
-            return (
-              <div key={t} className="mt-2 mr-5 mb-2">
-                <Tag text={t} />
+        <div className="rounded-lg bg-white p-6 dark:bg-gray-800">
+          {tagKeys.length === 0 ? (
+            <p className="text-center text-gray-600 dark:text-gray-400">No tags found.</p>
+          ) : (
+            <div className="flex flex-wrap justify-center gap-4">
+              {sortedTags.map((t) => (
                 <Link
+                  key={t}
                   href={`/tags/${slug(t)}`}
-                  className="-ml-2 text-sm font-semibold text-gray-600 uppercase dark:text-gray-300"
+                  className="group"
                   aria-label={`View posts tagged ${t}`}
                 >
-                  {` (${tagCounts[t]})`}
+                  <div className="flex items-center gap-2">
+                    <Tag text={t} />
+                    <span className="group-hover:text-primary-500 dark:group-hover:text-primary-400 text-sm font-medium text-gray-600 transition-colors dark:text-gray-400">
+                      ({tagCounts[t]})
+                    </span>
+                  </div>
                 </Link>
-              </div>
-            )
-          })}
+              ))}
+            </div>
+          )}
         </div>
       </div>
-    </>
+    </div>
   )
 }

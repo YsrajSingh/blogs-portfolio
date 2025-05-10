@@ -4,6 +4,7 @@ import ListLayout from '@/layouts/ListLayoutWithTags'
 import { allBlogs } from 'contentlayer/generated'
 import tagData from 'app/tag-data.json'
 import { notFound } from 'next/navigation'
+import Tag from '@/components/Tag'
 
 const POSTS_PER_PAGE = 5
 
@@ -43,11 +44,16 @@ export default async function TagPage(props: { params: Promise<{ tag: string; pa
   }
 
   return (
-    <ListLayout
-      posts={filteredPosts}
-      initialDisplayPosts={initialDisplayPosts}
-      pagination={pagination}
-      title={title}
-    />
+    <div className="mx-auto max-w-6xl">
+      <div className="mx-auto mt-32 w-full max-w-6xl px-4 py-6 text-center md:mt-24 md:px-6 md:py-10">
+        <h1 className="text-3xl font-bold text-gray-800 md:text-6xl">{title}</h1>
+      </div>
+      <ListLayout
+        posts={filteredPosts}
+        initialDisplayPosts={initialDisplayPosts}
+        pagination={pagination}
+        title={title}
+      />
+    </div>
   )
 }
