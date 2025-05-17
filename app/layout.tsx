@@ -114,6 +114,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         strategy="afterInteractive"
         crossOrigin="anonymous"
       />
+      <Script
+        id="adsbygoogle"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `(adsbygoogle = window.adsbygoogle || []).push({});`,
+        }}
+      />
       <meta name="msapplication-TileColor" content="#000000" />
       {/* <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" /> */}
@@ -133,6 +140,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </SearchProvider>
         </SectionContainer>
+        <ins
+          id="dispaly-ads"
+          className="adsbygoogle"
+          style={{ display: 'block' }}
+          data-ad-client="ca-pub-3695234063616330"
+          data-ad-slot="6866831648"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
         <Footer />
         {/* </ThemeProviders> */}
       </body>

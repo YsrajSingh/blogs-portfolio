@@ -80,65 +80,80 @@ export default function Home({ posts }: { posts: Post[] }) {
                   </div>
                 </div>
               ))
-          : displayedPosts.map((post) => {
+          : displayedPosts.map((post, index) => {
               const { slug, date, title, summary, tags, images, path } = post
               return (
-                <Link
-                  key={slug}
-                  className="flex cursor-pointer flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-xl"
-                  role="button"
-                  tabIndex={0}
-                  href={path}
-                >
-                  {/* Image or Placeholder */}
-                  {images && images.length > 0 ? (
-                    <Image
-                      src={images[0]}
-                      alt="Thumbnail"
-                      width={700}
-                      height={300}
-                      className="h-36 w-full object-cover md:h-48"
-                      placeholder="blur"
-                      blurDataURL="data:image/svg+xml;base64,..."
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      quality={70}
-                    />
-                  ) : (
-                    <div className="h-36 w-full bg-gray-200 md:h-48"></div>
-                  )}
+                <>
+                  <Link
+                    key={slug}
+                    className="flex cursor-pointer flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-xl"
+                    role="button"
+                    tabIndex={0}
+                    href={path}
+                  >
+                    {/* Image or Placeholder */}
+                    {images && images.length > 0 ? (
+                      <Image
+                        src={images[0]}
+                        alt="Thumbnail"
+                        width={700}
+                        height={300}
+                        className="h-36 w-full object-cover md:h-48"
+                        placeholder="blur"
+                        blurDataURL="data:image/svg+xml;base64,..."
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        quality={70}
+                      />
+                    ) : (
+                      <div className="h-36 w-full bg-gray-200 md:h-48"></div>
+                    )}
 
-                  {/* Content */}
-                  <div className="flex flex-grow flex-col p-4 md:p-6">
-                    <h2 className="mb-2 text-xl font-bold text-gray-900 transition-colors hover:text-black md:text-2xl">
-                      {title}
-                    </h2>
-                    <p className="md:text-md mb-4 flex-grow text-sm text-gray-600">
-                      {trimSummary(summary)}
-                    </p>
-                    <div className="flex flex-wrap">
-                      {tags &&
-                        tags.slice(0, 2).map((tag, idx) => (
-                          <span
-                            key={idx}
-                            className="mr-2 mb-2 rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold text-black md:text-sm"
-                          >
-                            {tag.charAt(0).toUpperCase() + tag.slice(1)}
-                          </span>
-                        ))}
+                    {/* Content */}
+                    <div className="flex flex-grow flex-col p-4 md:p-6">
+                      <h2 className="mb-2 text-xl font-bold text-gray-900 transition-colors hover:text-black md:text-2xl">
+                        {title}
+                      </h2>
+                      <p className="md:text-md mb-4 flex-grow text-sm text-gray-600">
+                        {trimSummary(summary)}
+                      </p>
+                      <div className="flex flex-wrap">
+                        {tags &&
+                          tags.slice(0, 2).map((tag, idx) => (
+                            <span
+                              key={idx}
+                              className="mr-2 mb-2 rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold text-black md:text-sm"
+                            >
+                              {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                            </span>
+                          ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Footer */}
-                  <div className="mt-auto border-t border-gray-300 p-4">
-                    <p className="text-xs text-gray-500 md:text-sm">
-                      {new Date(date).toLocaleDateString('en-GB', {
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric',
-                      })}
-                    </p>
-                  </div>
-                </Link>
+                    {/* Footer */}
+                    <div className="mt-auto border-t border-gray-300 p-4">
+                      <p className="text-xs text-gray-500 md:text-sm">
+                        {new Date(date).toLocaleDateString('en-GB', {
+                          day: '2-digit',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </p>
+                    </div>
+                  </Link>
+                  {(index + 1) % 4 === 0 && (
+                    <div className="my-6">
+                      <ins
+                        id="in-feed-ads"
+                        className="adsbygoogle"
+                        style={{ display: 'block' }}
+                        data-ad-client="ca-pub-3695234063616330"
+                        data-ad-slot="6866831648"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"
+                      ></ins>
+                    </div>
+                  )}
+                </>
               )
             })}
       </div>
