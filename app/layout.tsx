@@ -13,12 +13,19 @@ import siteMetadata from '@/data/siteMetadata'
 // import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import Script from 'next/script'
+import AdsenseScript from '@/components/AdsenseScript'
 
 // const space_grotesk = Space_Grotesk({
 //   subsets: ['latin'],
 //   display: 'swap',
 //   variable: '--font-space-grotesk',
 // })
+
+declare global {
+  interface Window {
+    adsbygoogle: unknown[]
+  }
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
@@ -114,13 +121,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         strategy="afterInteractive"
         crossOrigin="anonymous"
       />
-      <Script
-        id="adsbygoogle"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `(adsbygoogle = window.adsbygoogle || []).push({});`,
-        }}
-      />
       <meta name="msapplication-TileColor" content="#000000" />
       {/* <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" /> */}
@@ -140,6 +140,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </SearchProvider>
         </SectionContainer>
+        <AdsenseScript />
         <ins
           id="dispaly-ads"
           className="adsbygoogle"
