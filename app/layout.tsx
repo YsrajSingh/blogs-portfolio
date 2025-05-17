@@ -86,6 +86,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         href={`${basePath}/static/favicons/android-chrome-512x512.png`}
         color="#5bbad5"
       />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href={`${basePath}/static/favicons/favicon-32x32.png`}
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href={`${basePath}/static/favicons/favicon-16x16.png`}
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="512x512"
+        href={`${basePath}/static/favicons/android-chrome-512x512.png`}
+      />
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href={`${basePath}/static/favicons/apple-touch-icon.png`}
+      />
       <Script
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3695234063616330"
         strategy="afterInteractive"
