@@ -116,11 +116,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         sizes="180x180"
         href={`${basePath}/static/favicons/apple-touch-icon.png`}
       />
-      <Script
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3695234063616330"
-        strategy="afterInteractive"
-        crossOrigin="anonymous"
-      />
       <meta name="msapplication-TileColor" content="#000000" />
       {/* <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" /> */}

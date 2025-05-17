@@ -10,12 +10,15 @@ declare global {
 
 export default function AdsenseScript() {
   return (
-    <Script
-      id="adsbygoogle"
-      strategy="afterInteractive"
-      onLoad={() => {
-        ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-      }}
-    />
+    <>
+      <Script
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3695234063616330"
+        strategy="afterInteractive"
+        crossOrigin="anonymous"
+        onLoad={() => {
+          ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+        }}
+      />
+    </>
   )
 }
