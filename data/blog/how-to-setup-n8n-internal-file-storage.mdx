@@ -1,0 +1,118 @@
+---
+title: "How to Set Up n8n's Internal File Storage: A Complete Guide"
+date: '2025-05-18'
+tags: ['n8n', 'file-storage', 'docker', 'automation', 'self-hosted', 'workflow']
+draft: false
+images: ['https://cdn-images-1.medium.com/max/1024/1*ItMqWrJDkJbjJbpl273LDQ.png']
+summary: "A complete guide to using n8n's internal file storage for self-hosted automation, including Docker volume setup, workflow integration, and best practices."
+---
+
+![n8n data storage](https://cdn-images-1.medium.com/max/1024/1*ItMqWrJDkJbjJbpl273LDQ.png)
+
+n8n (pronounced "n-eight-n") is a popular open-source automation tool that lets you automate workflows by connecting apps and services. It's well known for its ease of use, flexibility, and powerful integrations. But while n8n supports popular cloud file storage services like Google Drive, OneDrive, and Dropbox, did you know that you can store files _directly_ on n8n itself using its **internal file storage**? This can be particularly useful for teams or individuals who want to keep everything self-hosted or avoid depending on external cloud services.
+
+In this article, we'll explore how to set up and use n8n's internal file storage, the benefits of this setup, and how to configure Docker volumes to persist your files.
+
+## Table of Contents
+
+1. What is n8n's Internal File Storage?
+2. Benefits of Using n8n's Internal File Storage
+3. How to Set Up Internal File Storage in n8n (with docker volumes)
+4. Managing Files with n8n's Internal Storage
+5. Best Practices for Using Internal File Storage
+
+<BlogNewsletterForm title="Want more n8n and automation tutorials?" />
+
+## What is n8n's Internal File Storage?
+
+n8n's **internal file storage** is a feature that allows you to store files directly within your n8n instance, using its built-in S3-compatible file storage system. This means you don't need to rely on third-party file storage services like **Google Drive**, **OneDrive**, or **Dropbox**. Instead, n8n will handle the storage of your files on the same infrastructure that is running your automation workflows.
+
+It works by creating **folders** where files can be uploaded, downloaded, and retrieved during workflow executions. These files can be stored locally on your server or cloud provider, and you can configure storage to persist even if you restart or redeploy your n8n instance.
+
+## Benefits of Using n8n's Internal File Storage
+
+Before we dive into the setup, let's discuss the key **benefits** of using n8n's internal file storage:
+
+### 1. Self-Hosting and Data Privacy
+
+With n8n's internal file storage, you are no longer dependent on third-party cloud services for file storage. This means your files are stored **on your own infrastructure**, giving you full control over your data. This is especially useful if you have privacy concerns or need to comply with data protection regulations (e.g., GDPR).
+
+### 2. Simplified Integration with n8n Workflows
+
+If you're already using n8n for your automations, using its internal storage simplifies the workflow creation. You don't need to handle API calls or authenticate with external services to store or retrieve files. Everything is neatly integrated into the same environment, making it easier to manage and maintain.
+
+### 3. Cost Efficiency
+
+By storing files internally on n8n, you can avoid the additional costs that come with external cloud storage providers. You won't have to pay for storage space, API requests, or bandwidth fees, especially when you have a large number of files or frequently run workflows.
+
+### 4. Improved Performance
+
+Since the file storage is on the same system as your n8n instance, file access speeds are often faster compared to relying on external services. This is beneficial for workflows that need to process or retrieve files frequently.
+
+### 5. Easier Backup and Recovery
+
+With n8n's internal file storage, you can back up everything — workflows, credentials, and files — in a single operation. You can set up regular backups of your n8n instance and ensure that all data, including files, are backed up and easy to restore.
+
+## How to Set Up Internal File Storage in n8n
+
+Now that we've discussed the benefits, let's walk through how you can set up internal file storage in n8n.
+
+### Configure n8n for Internal File Storage
+
+By default, n8n uses **local storage** to store files. You don't need to install any additional packages or services, as file storage is built directly into the n8n application. **_But I will prefer you to create a separate docker volume._** Here's how you can enable and configure it:
+
+> To create a setup of n8n with docker you can refer to my this article: [How to setup n8n with docker](https://ysrazsingh.medium.com/how-to-setup-n8n-with-docker-ad8bb6392eb2)
+
+To store files using the File node in n8n, you'll need to specify the file path and configure the node to use the local directories you've set up. Make sure the paths correspond to the correct folder locations within your Docker container (e.g., /private, /public). You can also use expressions to make file paths dynamic depending on the workflow.
+
+```yaml
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 5678:5678
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./private:/private
+      - ./public:/public
+      - ./files:/files
+
+volumes:
+  n8n_data:
+```
+
+Example of n8n workflow to save file in local storage:
+
+![n8n workflow to save file in local storage](https://cdn-images-1.medium.com/max/1024/1*Rd5LgkbHCxppcQ7dzPgO-g.png)
+
+Ensure that the directories you use for storage (such as private and public) have the appropriate file permissions to prevent unauthorized access, especially when handling sensitive data.
+
+![Internal nodes images](https://cdn-images-1.medium.com/max/1024/1*FiBu-cl0XnlyHHMU46N2Ug.jpeg)
+
+## Managing Files with n8n's Internal Storage (with docker volumes)
+
+Once you've set up n8n's internal file storage, you can use the File node in n8n to handle file operations. Some common actions include:
+
+- **Read file(s) from disk:** Retrieve one or more files from the computer that runs n8n.
+- **Write file to disk:** Create a binary file on the computer that runs n8n.
+- **Delete file:** To delete file you need to use ssh module and have to setup a command with file name to delete files.
+
+## Best Practices for Using Internal File Storage
+
+To make the most out of n8n's internal file storage, here are some **best practices**:
+
+- **Monitor Storage Usage:** Keep an eye on the amount of space used, especially if you're storing large files. You may want to set up automatic cleanup or backup processes.
+- **Regular Backups:** Regularly back up your n8n instance and storage volumes to avoid data loss.
+- **File Organization:** Use folders and naming conventions to keep files organized within your internal storage, especially if your workflows deal with a lot of data.
+
+<BlogNewsletterForm title="Want more n8n and automation tutorials?" />
+
+## Conclusion
+
+n8n's internal file storage is an excellent option for self-hosted users who want to keep their files integrated into their automation workflows while maintaining full control over their data. By setting up Docker volumes and configuring n8n to use its built-in binary file system, you can store and manage your files without relying on external cloud services. This approach offers benefits like enhanced security, cost savings, and improved performance — all while keeping your workflows simple and efficient.
+
+Let us know how it goes!
