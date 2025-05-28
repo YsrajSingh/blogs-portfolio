@@ -136,7 +136,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </SearchProvider>
         </SectionContainer>
         <AdsenseScript />
-        <ins
+        {/* <ins
           id="dispaly-ads"
           className="adsbygoogle"
           style={{ display: 'block' }}
@@ -144,7 +144,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           data-ad-slot="6866831648"
           data-ad-format="auto"
           data-full-width-responsive="true"
-        ></ins>
+        ></ins> */}
         <Footer />
         {/* </ThemeProviders> */}
       </body>

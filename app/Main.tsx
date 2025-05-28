@@ -140,7 +140,7 @@ export default function Home({ posts }: { posts: Post[] }) {
                       </p>
                     </div>
                   </Link>
-                  {(index + 1) % 4 === 0 && (
+                  {/* {(index + 1) % 4 === 0 && (
                     <div className="my-6">
                       <ins
                         id="in-feed-ads"
@@ -152,7 +152,7 @@ export default function Home({ posts }: { posts: Post[] }) {
                         data-full-width-responsive="true"
                       ></ins>
                     </div>
-                  )}
+                  )} */}
                 </>
               )
             })}
